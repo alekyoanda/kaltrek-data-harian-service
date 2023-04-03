@@ -1,0 +1,17 @@
+package com.example.dataharianuser.repository;
+
+import com.example.dataharianuser.model.DataHarian;
+import com.example.dataharianuser.model.DataHarianDetails;
+import jdk.jfr.Registered;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface DataHarianDetailsRepository extends JpaRepository {
+    List<DataHarianDetails> findAll();
+    List<DataHarianDetails> findAllByDataHarianId(Long dataHarianId);
+    Optional<DataHarianDetails> findByDataHarianIdAndMakananId(Long dataHarianId, Long makananId);
+}

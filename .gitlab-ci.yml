@@ -78,7 +78,7 @@ Deploy:
   stage: deploy
   image: alpine:latest
   before_script:
-    - chmod 400 $SSH_KEY
+    - chmod 400 ~/.ssh/id_rsa
     - apk update && apk add openssh-client
   script:
     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $GCP_USERNAME@$GCP_STATIC_IP "

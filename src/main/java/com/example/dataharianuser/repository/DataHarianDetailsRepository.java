@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DataHarianDetailsRepository extends JpaRepository {
+public interface DataHarianDetailsRepository extends JpaRepository<DataHarianDetails, Long> {
     List<DataHarianDetails> findAll();
     List<DataHarianDetails> findAllByDataHarianId(Long dataHarianId);
     Optional<DataHarianDetails> findByDataHarianIdAndMakananId(Long dataHarianId, Long makananId);

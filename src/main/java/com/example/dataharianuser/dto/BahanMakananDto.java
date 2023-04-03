@@ -7,7 +7,6 @@ import org.springframework.web.client.RestTemplate;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class BahanMakananDto extends MakananDTO{

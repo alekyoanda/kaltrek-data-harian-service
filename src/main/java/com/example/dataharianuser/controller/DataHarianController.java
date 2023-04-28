@@ -9,6 +9,7 @@ import com.example.dataharianuser.service.DataHarianService;
 import com.example.dataharianuser.utils.Authenticator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,14 +26,15 @@ public class DataHarianController {
     @GetMapping("/all")
     public ResponseEntity<List<DataHarianResponse>> getAllUserDataHarian(@RequestHeader("Authorization") String bearerToken) {
         Integer userId = authenticator.getUserId(bearerToken);
-        List<DataHarianResponse> response = dataHarianService.findAllByUserId(userId);
+        List<DataHarianResponse> response = dataHarianService.findAllByUserId(userId, bearerToken);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get-by-date")
-    public ResponseEntity<DataHarianResponse> getDataHarianUserByDate(@RequestHeader("Authorization") String bearerToken, @RequestBody Date date) {
+    public ResponseEntity<DataHarianResponse> getDataHarianUserByDate(@RequestHeader("Authorization") String bearerToken,
+                                                                      @RequestParam(value="date") @DateTimeFormat(pattern="ddMMyyyy") Date date) {
         Integer userId = authenticator.getUserId(bearerToken);
-        DataHarianResponse response = dataHarianService.findDataHarianByDateAndUserId(date, userId);
+        DataHarianResponse response = dataHarianService.findDataHarianByDateAndUserId(date, userId, bearerToken);
         return ResponseEntity.ok(response);
     }
 

@@ -6,11 +6,10 @@ import lombok.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BahanMakananDto extends MakananDTO{
+public class BahanMakananDto{
     @JsonProperty("id_bahan")
     private Long idBahan;
 

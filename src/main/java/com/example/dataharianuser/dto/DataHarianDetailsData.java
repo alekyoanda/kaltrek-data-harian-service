@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 @Data
@@ -15,8 +19,8 @@ public class DataHarianDetailsData {
     private BahanMakananDto makanan;
     private Double jumlahTakaran;
 
-    public static DataHarianDetailsData fromDataHarianDetails(DataHarianDetails dataHarianDetails, RestTemplate restTemplate) {
-        BahanMakananDto bahanMakanan = requestGetBahanMakanan(dataHarianDetails.getMakananId(), restTemplate);
+    public static DataHarianDetailsData fromDataHarianDetails(DataHarianDetails dataHarianDetails, RestTemplate restTemplate, String bearerToken) {
+        BahanMakananDto bahanMakanan = requestGetBahanMakanan(dataHarianDetails.getMakananId(), restTemplate, bearerToken);
 
         setInformasiGiziSesuaiTakaran(dataHarianDetails, bahanMakanan);
 
@@ -38,10 +42,15 @@ public class DataHarianDetailsData {
         bahanMakanan.setSodium(bahanMakanan.getSodium() * koefisienTakaran);
     }
 
-    public static BahanMakananDto requestGetBahanMakanan(Long bahanMakananId, RestTemplate restTemplate){
-        String url = "http://localhost:8080/api/v1/bahanmakanan/id/" + bahanMakananId;
+    public static BahanMakananDto requestGetBahanMakanan(Long bahanMakananId, RestTemplate restTemplate, String bearerToken){
+        System.err.println(bahanMakananId);
+        String url = "http://localhost:8081/api/v1/bahanmakanan/id/" + bahanMakananId;
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", bearerToken);
+        HttpEntity<String> entity = new HttpEntity<>("",headers);
+        ResponseEntity<BahanMakananDto> response = restTemplate.exchange(url, HttpMethod.GET, entity, BahanMakananDto.class);
 
-        return restTemplate.getForObject(url, BahanMakananDto.class);
+        return response.getBody();
     }
 
 }

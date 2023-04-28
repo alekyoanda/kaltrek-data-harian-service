@@ -1,5 +1,7 @@
 package com.example.dataharianuser.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
@@ -23,7 +25,12 @@ public class DataHarian {
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<DataHarianDetails> dataHarianDetailsList;
+
+    public void addDataHarianDetails(DataHarianDetails dataHarianDetails){
+        this.dataHarianDetailsList.add(dataHarianDetails);
+    }
 
 
 }

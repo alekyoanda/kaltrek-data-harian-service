@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class MakananDTO {
+public class MakananDTO {
     @JsonProperty("id_makanan")
     private Long makananId;
 

@@ -22,7 +22,7 @@ public class DataHarianResponse {
     private Double totalKaloriKonsumsi;
     private List<DataHarianDetailsData> dataHarianDetailsDataList;
 
-    public static DataHarianResponse fromDataHarian(DataHarian dataHarian, List<DataHarianDetails> dataHarianDetailsList, RestTemplate restTemplate) {
+    public static DataHarianResponse fromDataHarian(DataHarian dataHarian, List<DataHarianDetails> dataHarianDetailsList, RestTemplate restTemplate, String bearerToken) {
         return DataHarianResponse.builder()
                 .userId(dataHarian.getUserId())
                 .date(dataHarian.getDate())
@@ -30,7 +30,7 @@ public class DataHarianResponse {
                 .totalKaloriKonsumsi(dataHarian.getTotalKaloriKonsumsi())
                 .dataHarianDetailsDataList(dataHarianDetailsList
                         .stream()
-                        .map((dataHarianDetails -> DataHarianDetailsData.fromDataHarianDetails(dataHarianDetails, restTemplate)))
+                        .map((dataHarianDetails -> DataHarianDetailsData.fromDataHarianDetails(dataHarianDetails, restTemplate, bearerToken)))
                         .toList())
                 .build();
     }

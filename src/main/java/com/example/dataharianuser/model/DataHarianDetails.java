@@ -17,9 +17,7 @@ public class DataHarianDetails {
     private DataHarian dataHarian;
 
     private Long makananId;
-    @Enumerated(EnumType.STRING)
-    private MakananCategory makananCategory;
-    @Value("${cp.cusom.takaran:false}")
+    @Value("${cp.custom.takaran:false}")
     private Boolean isCustomTakaran;
     private Double jumlahTakaran;
 

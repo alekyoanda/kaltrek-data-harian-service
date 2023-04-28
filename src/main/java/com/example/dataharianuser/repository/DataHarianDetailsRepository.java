@@ -13,5 +13,5 @@ import java.util.Optional;
 public interface DataHarianDetailsRepository extends JpaRepository<DataHarianDetails, Long> {
     List<DataHarianDetails> findAll();
     List<DataHarianDetails> findAllByDataHarianId(Long dataHarianId);
-    Optional<DataHarianDetails> findByDataHarianIdAndMakananId(Long dataHarianId, Long makananId);
+    Optional<DataHarianDetails> findDataHarianDetailsByIdAndDataHarianId(Long id, Long dataHarianId);
 }

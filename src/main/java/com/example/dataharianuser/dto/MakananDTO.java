@@ -1,6 +1,7 @@
 package com.example.dataharianuser.dto;
 
 import com.example.dataharianuser.model.MakananCategory;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -12,11 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class MakananDTO {
+    @JsonProperty("id_makanan")
     private Long makananId;
-    @Enumerated(EnumType.STRING)
-    private MakananCategory makananCategory;
+
+    @JsonProperty("nama_makanan")
     private String namaMakanan;
-    private Double jumlahKalori;
-    private String namaTakaran;
-    private Double jumlahTakaranInUnit;
 }

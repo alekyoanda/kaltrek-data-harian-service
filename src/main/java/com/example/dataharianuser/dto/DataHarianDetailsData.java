@@ -1,12 +1,10 @@
 package com.example.dataharianuser.dto;
 
 import com.example.dataharianuser.model.DataHarianDetails;
-import com.example.dataharianuser.model.MakananCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 @Data
@@ -14,29 +12,36 @@ import org.springframework.web.client.RestTemplate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DataHarianDetailsData {
-    private MakananDTO makanan;
+    private BahanMakananDto makanan;
     private Double jumlahTakaran;
 
     public static DataHarianDetailsData fromDataHarianDetails(DataHarianDetails dataHarianDetails, RestTemplate restTemplate) {
-        MakananDTO makananDTO = requestGetMakanan(dataHarianDetails.getMakananId(), dataHarianDetails.getMakananCategory(), restTemplate);
+        BahanMakananDto bahanMakanan = requestGetBahanMakanan(dataHarianDetails.getMakananId(), restTemplate);
+
+        setInformasiGiziSesuaiTakaran(dataHarianDetails, bahanMakanan);
 
         return DataHarianDetailsData.builder()
-                .makanan(makananDTO)
+                .makanan(bahanMakanan)
                 .jumlahTakaran(dataHarianDetails.getJumlahTakaran())
                 .build();
     }
 
-    public static MakananDTO requestGetMakanan(Long makananId, MakananCategory makananCategory, RestTemplate restTemplate){
-        String url = "http://localhost:8080/makanan/" + makananId;
+    private static void setInformasiGiziSesuaiTakaran(DataHarianDetails dataHarianDetails, BahanMakananDto bahanMakanan) {
+        Double koefisienTakaran = dataHarianDetails.getJumlahTakaran() / bahanMakanan.getTakaran();
 
-        MakananDTO makananDTO;
-        if (makananCategory.equals(MakananCategory.BAHAN_MAKANAN)){
-            makananDTO = restTemplate.getForObject(url, BahanMakananDto.class);
-        }
-        else{
-            makananDTO = restTemplate.getForObject(url, ResepMakananDto.class);
-        }
-
-        return makananDTO;
+        bahanMakanan.setGula(bahanMakanan.getGula() * koefisienTakaran);
+        bahanMakanan.setKalori(bahanMakanan.getKalori() * koefisienTakaran);
+        bahanMakanan.setKarbohidrat(bahanMakanan.getKarbohidrat() * koefisienTakaran);
+        bahanMakanan.setKolesterol(bahanMakanan.getKolesterol() * koefisienTakaran);
+        bahanMakanan.setLemak(bahanMakanan.getLemak() * koefisienTakaran);
+        bahanMakanan.setProtein(bahanMakanan.getProtein() * koefisienTakaran);
+        bahanMakanan.setSodium(bahanMakanan.getSodium() * koefisienTakaran);
     }
+
+    public static BahanMakananDto requestGetBahanMakanan(Long bahanMakananId, RestTemplate restTemplate){
+        String url = "http://localhost:8080/api/v1/bahanmakanan/id/" + bahanMakananId;
+
+        return restTemplate.getForObject(url, BahanMakananDto.class);
+    }
+
 }

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
-import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,5 +15,9 @@ public interface DataHarianRepository extends JpaRepository<DataHarian, Long> {
 
     List<DataHarian> findAllByUserId(Integer userId);
 
-    Optional<DataHarian> findById(@NonNull Long id);
+    Optional<DataHarian> findDataHarianById(@NonNull Long id);
+
+    Optional<DataHarian> findDataHarianByIdAndUserId(@NonNull Long id, Integer userId);
+
+    Optional<DataHarian> findDataHarianByDateAndUserId(Date date, Integer userId);
 }

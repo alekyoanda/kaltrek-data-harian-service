@@ -59,11 +59,10 @@ public class DataHarianServiceImpl implements DataHarianService{
     @Override
     public DataHarian create(Integer userId, DataHarianRequest dataHarianRequest) {
         Date date = new Date();
-        System.err.println(date.toString());
         var dataHarian = DataHarian.builder()
                 .date(date)
                 .targetKalori(dataHarianRequest.getTargetKalori())
-                .totalKaloriKonsumsi(dataHarianRequest.getTotalKaloriKonsumsi())
+                .totalKaloriKonsumsi(0.0)
                 .userId(userId)
                 .build();
         dataHarianRepository.save(dataHarian);
@@ -111,13 +110,35 @@ public class DataHarianServiceImpl implements DataHarianService{
     }
 
     @Override
-    public DataHarianDetails updateUbahMakanan(Integer userId, Long id, DataHarianDetailsRequest dataHarianDetailsRequest) {
-        var dataHarianOptional = dataHarianRepository.findDataHarianByIdAndUserId(id, userId);
+    public DataHarianDetails updateUbahMakanan(Integer userId, Long dataHarianId, Long dataHarianDetailsId, DataHarianDetailsRequest dataHarianDetailsRequest) {
+        var dataHarianOptional = dataHarianRepository.findDataHarianByIdAndUserId(dataHarianId, userId);
         if (dataHarianOptional.isEmpty()){
-            throw new DataHarianDoesNotExistException(id);
+            throw new DataHarianDoesNotExistException(dataHarianId);
         }
         DataHarian dataHarian = dataHarianOptional.get();
-        return dataHarianDetailsService.update(id, dataHarian, userId, dataHarianDetailsRequest);
+
+        DataHarianDetails dataHarianDetails = dataHarianDetailsService.update(dataHarianDetailsId, dataHarian, userId, dataHarianDetailsRequest);
+        dataHarian.addDataHarianDetails(dataHarianDetails);
+
+        dataHarianRepository.save(dataHarian);
+
+        return dataHarianDetails;
+    }
+
+    @Override
+    public DataHarianDetails deleteDataHarianDetail(Integer userId, Long dataHarianId, Long dataHarianDetailId) {
+        var dataHarianOptional = dataHarianRepository.findDataHarianByIdAndUserId(dataHarianId, userId);
+        if (dataHarianOptional.isEmpty()){
+            throw new DataHarianDoesNotExistException(dataHarianId);
+        }
+        DataHarian dataHarian = dataHarianOptional.get();
+        DataHarianDetails newDataHarianDetails = dataHarianDetailsService.delete(dataHarianDetailId, dataHarian, userId);
+
+        dataHarian.removeDataHarianDetails(newDataHarianDetails);
+        dataHarianRepository.save(dataHarian);
+        dataHarianDetailsRepository.delete(newDataHarianDetails);
+
+        return newDataHarianDetails;
     }
 
     private static Date setTimeToMidnight(Date date) {

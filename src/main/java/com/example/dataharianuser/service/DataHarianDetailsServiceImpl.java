@@ -48,9 +48,24 @@ public class DataHarianDetailsServiceImpl implements DataHarianDetailsService{
                 .jumlahTakaran(dataHarianDetailsRequest.getJumlahTakaran())
                 .build();
 
+        dataHarian.removeDataHarianDetails(dataHarianDetailsOptional.get());
+
         dataHarianDetailsRepository.delete(dataHarianDetailsOptional.get());
         dataHarianDetailsRepository.save(updateData);
 
+
         return updateData;
+    }
+
+    @Override
+    public DataHarianDetails delete(Long id, DataHarian dataHarian, Integer userId) {
+        Optional<DataHarianDetails> dataHarianDetailsOptional = dataHarianDetailsRepository.
+                findDataHarianDetailsByIdAndDataHarianId(id, dataHarian.getId());
+
+        if (dataHarianDetailsOptional.isEmpty()){
+            throw new DataHarianDetailsDoesNotExistException(id, dataHarian.getId());
+        }
+//        dataHarianDetailsRepository.delete(dataHarianDetailsOptional.get());
+        return dataHarianDetailsOptional.get();
     }
 }

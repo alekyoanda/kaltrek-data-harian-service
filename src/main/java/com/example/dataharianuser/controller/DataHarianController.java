@@ -45,25 +45,33 @@ public class DataHarianController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update-target-kalori/{id}")
+    @PutMapping("/update-target-kalori/{id}")
     public ResponseEntity<DataHarian> updateDataHarianTargetKalori(@RequestHeader("Authorization") String bearerToken, @PathVariable Long id, @RequestBody DataHarianRequest dataHarianRequest) {
         Integer userId = authenticator.getUserId(bearerToken);
         DataHarian response = dataHarianService.updateTargetKalori(userId, id, dataHarianRequest);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update-tambah-makanan/{id}")
+    @PutMapping("/update-tambah-makanan/{id}")
     public ResponseEntity<DataHarianDetails> updateTambahMakanan(@RequestHeader("Authorization") String bearerToken, @PathVariable Long id, @RequestBody DataHarianDetailsRequest dataHarianDetailsRequest) {
         Integer userId = authenticator.getUserId(bearerToken);
         DataHarianDetails response = dataHarianService.updateTambahMakanan(userId, id, dataHarianDetailsRequest);
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/update-ubah-makanan/{id}")
-    public ResponseEntity<DataHarianDetails> updateUbahMakanan(@RequestHeader("Authorization") String bearerToken, @PathVariable Long id, @RequestBody DataHarianDetailsRequest dataHarianDetailsRequest) {
+    @PutMapping("/update-ubah-makanan/{data_harian_id}/{data_harian_detail_id}")
+    public ResponseEntity<DataHarianDetails> updateUbahMakanan(@RequestHeader("Authorization") String bearerToken,
+                                                               @PathVariable Long data_harian_id, @PathVariable Long data_harian_detail_id,
+                                                               @RequestBody DataHarianDetailsRequest dataHarianDetailsRequest) {
         Integer userId = authenticator.getUserId(bearerToken);
-        DataHarianDetails response = dataHarianService.updateUbahMakanan(userId, id, dataHarianDetailsRequest);
+        DataHarianDetails response = dataHarianService.updateUbahMakanan(userId, data_harian_id, data_harian_detail_id, dataHarianDetailsRequest);
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/delete/{data_harian_id}/{data_harian_detail_id}")
+    public ResponseEntity<DataHarianDetails> deleteDataHarianDetail(@RequestHeader("Authorization") String bearerToken, @PathVariable Long data_harian_id, @PathVariable Long data_harian_detail_id) {
+        Integer userId = authenticator.getUserId(bearerToken);
+        DataHarianDetails response = dataHarianService.deleteDataHarianDetail(userId, data_harian_id, data_harian_detail_id);
+        return ResponseEntity.ok(response);
+    }
 }

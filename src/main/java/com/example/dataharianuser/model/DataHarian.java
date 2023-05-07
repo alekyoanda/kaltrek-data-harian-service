@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +32,10 @@ public class DataHarian {
 
     public void addDataHarianDetails(DataHarianDetails dataHarianDetails){
         this.dataHarianDetailsList.add(dataHarianDetails);
+    }
+
+    public void removeDataHarianDetails(DataHarianDetails dataHarianDetails){
+        this.dataHarianDetailsList.remove(dataHarianDetails);
     }
 
 

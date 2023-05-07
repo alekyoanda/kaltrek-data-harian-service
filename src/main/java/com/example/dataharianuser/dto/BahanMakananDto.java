@@ -23,6 +23,4 @@ public class BahanMakananDto{
     private Double sodium;
     private Double protein;
     private Double takaran;
-
-    private Integer userId;
 }

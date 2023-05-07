@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DataHarianResponse {
-    private Integer userId;
     private Date date;
     private Double targetKalori;
     private Double totalKaloriKonsumsi;
@@ -24,7 +23,6 @@ public class DataHarianResponse {
 
     public static DataHarianResponse fromDataHarian(DataHarian dataHarian, List<DataHarianDetails> dataHarianDetailsList, RestTemplate restTemplate, String bearerToken) {
         return DataHarianResponse.builder()
-                .userId(dataHarian.getUserId())
                 .date(dataHarian.getDate())
                 .targetKalori(dataHarian.getTargetKalori())
                 .totalKaloriKonsumsi(dataHarian.getTotalKaloriKonsumsi())

@@ -17,5 +17,6 @@ public interface DataHarianService {
     DataHarian create(Integer userId, DataHarianRequest dataHarianRequest);
     DataHarian updateTargetKalori(Integer userId, Long id, DataHarianRequest dataHarianRequest);
     DataHarianDetails updateTambahMakanan(Integer userId, Long id, DataHarianDetailsRequest dataHarianDetailsRequest);
-    DataHarianDetails updateUbahMakanan(Integer userId, Long id, DataHarianDetailsRequest dataHarianDetailsRequest);
+    DataHarianDetails updateUbahMakanan(Integer userId, Long dataHarianId, Long dataHarianDetailsId, DataHarianDetailsRequest dataHarianDetailsRequest);
+    DataHarianDetails deleteDataHarianDetail(Integer userId, Long dataHarianId, Long dataHarianDetailId);
 }

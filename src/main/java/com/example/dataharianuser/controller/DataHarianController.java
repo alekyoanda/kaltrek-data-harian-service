@@ -1,5 +1,6 @@
 package com.example.dataharianuser.controller;
 
+import com.example.dataharianuser.dto.DataHarianDetailsData;
 import com.example.dataharianuser.dto.DataHarianDetailsRequest;
 import com.example.dataharianuser.dto.DataHarianRequest;
 import com.example.dataharianuser.dto.DataHarianResponse;
@@ -41,9 +42,19 @@ public class DataHarianController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<DataHarian> createDataHarian(@RequestHeader("Authorization") String bearerToken, @RequestBody DataHarianRequest dataHarianRequest) {
+    public ResponseEntity<DataHarian> createDataHarian(@RequestHeader("Authorization") String bearerToken,
+                                                       @RequestBody DataHarianRequest dataHarianRequest) {
         Integer userId = authenticator.getUserId(bearerToken);
         DataHarian response = dataHarianService.create(userId, dataHarianRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/get-data-harian-details/{data_harian_id}/{data_harian_detail_id}")
+    public ResponseEntity<DataHarianDetailsData> getDataHarianDetailsById(@RequestHeader("Authorization") String bearerToken,
+                                                                       @PathVariable Long data_harian_id,
+                                                                       @PathVariable Long data_harian_detail_id) {
+        Integer userId = authenticator.getUserId(bearerToken);
+        DataHarianDetailsData response = dataHarianService.getDataHarianDetailsData(userId, data_harian_id, data_harian_detail_id, bearerToken);
         return ResponseEntity.ok(response);
     }
 
@@ -55,7 +66,9 @@ public class DataHarianController {
     }
 
     @PutMapping("/update-tambah-makanan/{id}")
-    public ResponseEntity<DataHarianDetails> updateTambahMakanan(@RequestHeader("Authorization") String bearerToken, @PathVariable Long id, @RequestBody DataHarianDetailsRequest dataHarianDetailsRequest) {
+    public ResponseEntity<DataHarianDetails> updateTambahMakanan(@RequestHeader("Authorization") String bearerToken,
+                                                                 @PathVariable Long id,
+                                                                 @RequestBody DataHarianDetailsRequest dataHarianDetailsRequest) {
         Integer userId = authenticator.getUserId(bearerToken);
         DataHarianDetails response = dataHarianService.updateTambahMakanan(userId, id, dataHarianDetailsRequest);
         return ResponseEntity.ok(response);
@@ -63,7 +76,8 @@ public class DataHarianController {
 
     @PutMapping("/update-ubah-makanan/{data_harian_id}/{data_harian_detail_id}")
     public ResponseEntity<DataHarianDetails> updateUbahMakanan(@RequestHeader("Authorization") String bearerToken,
-                                                               @PathVariable Long data_harian_id, @PathVariable Long data_harian_detail_id,
+                                                               @PathVariable Long data_harian_id,
+                                                               @PathVariable Long data_harian_detail_id,
                                                                @RequestBody DataHarianDetailsRequest dataHarianDetailsRequest) {
         Integer userId = authenticator.getUserId(bearerToken);
         DataHarianDetails response = dataHarianService.updateUbahMakanan(userId, data_harian_id, data_harian_detail_id, dataHarianDetailsRequest);
@@ -71,7 +85,9 @@ public class DataHarianController {
     }
 
     @DeleteMapping("/delete/{data_harian_id}/{data_harian_detail_id}")
-    public ResponseEntity<DataHarianDetails> deleteDataHarianDetail(@RequestHeader("Authorization") String bearerToken, @PathVariable Long data_harian_id, @PathVariable Long data_harian_detail_id) {
+    public ResponseEntity<DataHarianDetails> deleteDataHarianDetail(@RequestHeader("Authorization") String bearerToken,
+                                                                    @PathVariable Long data_harian_id,
+                                                                    @PathVariable Long data_harian_detail_id) {
         Integer userId = authenticator.getUserId(bearerToken);
         DataHarianDetails response = dataHarianService.deleteDataHarianDetail(userId, data_harian_id, data_harian_detail_id);
         return ResponseEntity.ok(response);

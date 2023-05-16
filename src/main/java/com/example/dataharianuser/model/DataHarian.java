@@ -22,7 +22,6 @@ public class DataHarian {
     private Long id;
     private Date date;
     private Double targetKalori;
-    private Double totalKaloriKonsumsi;
     private Integer userId;
 
     @JsonIgnore

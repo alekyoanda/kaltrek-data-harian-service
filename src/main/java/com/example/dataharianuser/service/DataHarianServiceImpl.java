@@ -1,5 +1,6 @@
 package com.example.dataharianuser.service;
 
+import com.example.dataharianuser.dto.DataHarianDetailsData;
 import com.example.dataharianuser.dto.DataHarianDetailsRequest;
 import com.example.dataharianuser.dto.DataHarianRequest;
 import com.example.dataharianuser.dto.DataHarianResponse;
@@ -62,12 +63,22 @@ public class DataHarianServiceImpl implements DataHarianService{
         var dataHarian = DataHarian.builder()
                 .date(date)
                 .targetKalori(dataHarianRequest.getTargetKalori())
-                .totalKaloriKonsumsi(0.0)
                 .userId(userId)
                 .build();
         dataHarianRepository.save(dataHarian);
 
         return dataHarian;
+    }
+
+    @Override
+    public DataHarianDetailsData getDataHarianDetailsData(Integer userId, Long dataHarianId, Long dataHarianDetailsId, String bearerToken) {
+        var dataHarianOptional = dataHarianRepository.findDataHarianByIdAndUserId(dataHarianId, userId);
+        if (dataHarianOptional.isEmpty()){
+            throw new DataHarianDoesNotExistException(dataHarianId);
+        }
+        DataHarian dataHarian = dataHarianOptional.get();
+
+        return dataHarianDetailsService.read(dataHarianDetailsId, dataHarian, userId, bearerToken);
     }
 
     @Override
@@ -83,7 +94,6 @@ public class DataHarianServiceImpl implements DataHarianService{
                 .id(id)
                 .date(dataHarian.getDate())
                 .targetKalori(dataHarianRequest.getTargetKalori())
-                .totalKaloriKonsumsi(dataHarianRequest.getTotalKaloriKonsumsi())
                 .dataHarianDetailsList(dataHarian.getDataHarianDetailsList())
                 .userId(userId)
                 .build();
@@ -101,12 +111,8 @@ public class DataHarianServiceImpl implements DataHarianService{
             throw new DataHarianDoesNotExistException(id);
         }
         DataHarian dataHarian = dataHarianOptional.get();
-        DataHarianDetails newDataHarianDetails = dataHarianDetailsService.create(dataHarian, userId, dataHarianDetailsRequest);
 
-        dataHarian.addDataHarianDetails(newDataHarianDetails);
-        dataHarianRepository.save(dataHarian);
-
-        return newDataHarianDetails;
+        return dataHarianDetailsService.create(dataHarian, userId, dataHarianDetailsRequest);
     }
 
     @Override
@@ -117,12 +123,7 @@ public class DataHarianServiceImpl implements DataHarianService{
         }
         DataHarian dataHarian = dataHarianOptional.get();
 
-        DataHarianDetails dataHarianDetails = dataHarianDetailsService.update(dataHarianDetailsId, dataHarian, userId, dataHarianDetailsRequest);
-        dataHarian.addDataHarianDetails(dataHarianDetails);
-
-        dataHarianRepository.save(dataHarian);
-
-        return dataHarianDetails;
+        return dataHarianDetailsService.update(dataHarianDetailsId, dataHarian, userId, dataHarianDetailsRequest);
     }
 
     @Override
@@ -134,9 +135,7 @@ public class DataHarianServiceImpl implements DataHarianService{
         DataHarian dataHarian = dataHarianOptional.get();
         DataHarianDetails newDataHarianDetails = dataHarianDetailsService.delete(dataHarianDetailId, dataHarian, userId);
 
-        dataHarian.removeDataHarianDetails(newDataHarianDetails);
-        dataHarianRepository.save(dataHarian);
-        dataHarianDetailsRepository.delete(newDataHarianDetails);
+
 
         return newDataHarianDetails;
     }
@@ -152,57 +151,4 @@ public class DataHarianServiceImpl implements DataHarianService{
 
         return calendar.getTime();
     }
-
-//    public DataHarianDetails update(Integer userId, Long id, DataHarianRequest dataHarianRequest) {
-//        Optional<DataHarian> dataHarianOld = dataHarianRepository.findById(id);
-//
-//        if (dataHarianOld.isEmpty()){
-//            throw new DataHarianDoesNotExistException(id);
-//        }
-//        var dataHarian = DataHarian.builder()
-//                .id(id)
-//                .date(dataHarianOld.get().getDate())
-//                .targetKalori(dataHarianRequest.getTargetKalori())
-//                .totalKaloriKonsumsi(dataHarianRequest.getTotalKaloriKonsumsi())
-//                .userId(userId)
-//                .build();
-//        dataHarianRepository.save(dataHarian);
-//
-//        // Updating target kalori
-//        var listOfDataHarianinDB = dataHarianDetailsRepository.findAllByDataHarianIdAndUserId(id, userId);
-//
-////        var listOfDataHarianInDB = dataHarianDetailsRepository.findAllByDataHarianId(id);
-////        dataHarianRequest.getDataHarianDetailsDataList().forEach(details -> {
-////            // Update Order includes the updates of OrderDetails.
-////            // There are 3 scenarios of OrderDetails update:
-////            // 1. OrderDetails exists both in Database and Put Request
-////            // 2. OrderDetails exists only in Put Request
-////            // 3. OrderDetails exists only in Database
-////
-////            var dataHarianDetails = dataHarianDetailsRepository.findByDataHarianIdAndMakananId(dataHarian.getId(), details.getMakanan().getMakananId());
-////            if (dataHarianDetails.isEmpty()) {
-////                dataHarianDetailsRepository.save(
-////                        DataHarianDetails.builder()
-////                                .dataHarian(dataHarian)
-////                                .makananId(details.getMakanan().getMakananId())
-////                                .makananCategory(details.getMakanan().getMakananCategory())
-////                                .isCustomTakaran(details.)
-////                                .build()
-////                );
-////            } else {
-////                listOfDataHarianInDB.remove(dataHarianDetails.get());
-////                dataHarianDetailsRepository.save(
-////                        OrderDetails.builder()
-////                                .id(dataHarianDetails.get().getId())
-////                                .order(dataHarian)
-////                                .quantity(details.getQuantity())
-////                                .totalPrice(details.getTotalPrice())
-////                                .medicine(medicine.get())
-////                                .build()
-////                );
-////            }
-////        });
-////        dataHarianDetailsRepository.deleteAll(listOfDataHarianInDB);
-//        return dataHarian;
-//    }
 }

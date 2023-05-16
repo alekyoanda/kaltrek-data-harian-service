@@ -39,4 +39,5 @@ public class DataHarianResponse {
                 .dataHarianDetailsDataList(dataHarianDetailsDataList)
                 .build();
     }
+
 }

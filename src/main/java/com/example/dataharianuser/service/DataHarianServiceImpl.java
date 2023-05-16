@@ -26,7 +26,7 @@ public class DataHarianServiceImpl implements DataHarianService{
     private final DataHarianDetailsRepository dataHarianDetailsRepository;
 
     private final DataHarianDetailsService dataHarianDetailsService;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
     @Override
     public List<DataHarianResponse> findAllByUserId(Integer userId, String bearerToken) {

@@ -20,8 +20,10 @@ import java.util.List;
 @RequestMapping("/api/v1/data-harian")
 @RequiredArgsConstructor
 public class DataHarianController {
+    @Autowired
     private final DataHarianService dataHarianService;
-    private final Authenticator authenticator = Authenticator.getInstance();
+    @Autowired
+    private final Authenticator authenticator;
 
     @GetMapping("/all")
     public ResponseEntity<List<DataHarianResponse>> getAllUserDataHarian(@RequestHeader("Authorization") String bearerToken) {

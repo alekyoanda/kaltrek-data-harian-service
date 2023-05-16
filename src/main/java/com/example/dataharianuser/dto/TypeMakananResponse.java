@@ -5,13 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestModelRequest {
-    private String name;
-    private Integer number;
+public class TypeMakananResponse {
+    private String namaMakanan;
+    private boolean isResepMakanan;
+    private Long idBahanOrResepMakanan;
 }

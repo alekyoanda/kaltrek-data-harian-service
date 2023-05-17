@@ -20,14 +20,14 @@ public class DataHarianResponse {
     private Date date;
     private Double targetKalori;
     private Double totalKaloriKonsumsi;
-    private List<DataHarianDetailsData> dataHarianDetailsDataList;
+    private List<DataHarianDetailsResponse> dataHarianDetailsDataList;
 
     public static DataHarianResponse fromDataHarian(DataHarian dataHarian, List<DataHarianDetails> dataHarianDetailsList, RestTemplate restTemplate, String bearerToken) {
         Double totalKaloriKonsumsi = 0.0;
 
-        List<DataHarianDetailsData> dataHarianDetailsDataList = new ArrayList<>();
+        List<DataHarianDetailsResponse> dataHarianDetailsDataList = new ArrayList<>();
         for (DataHarianDetails dataHarianDetails: dataHarianDetailsList){
-            DataHarianDetailsData dataHarianDetailsData = DataHarianDetailsData.fromDataHarianDetails(dataHarianDetails, restTemplate, bearerToken);
+            DataHarianDetailsResponse dataHarianDetailsData = DataHarianDetailsResponse.fromDataHarianDetails(dataHarianDetails, restTemplate, bearerToken);
             totalKaloriKonsumsi += dataHarianDetailsData.getMakanan().getKalori();
             dataHarianDetailsDataList.add(dataHarianDetailsData);
         }

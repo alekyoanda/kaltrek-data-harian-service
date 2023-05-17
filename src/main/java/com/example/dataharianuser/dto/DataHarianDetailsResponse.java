@@ -15,16 +15,16 @@ import org.springframework.web.client.RestTemplate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DataHarianDetailsData {
+public class DataHarianDetailsResponse {
     private MakananDetailsDto makanan;
     private Double jumlahTakaran;
 
-    public static DataHarianDetailsData fromDataHarianDetails(DataHarianDetails dataHarianDetails, RestTemplate restTemplate, String bearerToken) {
+    public static DataHarianDetailsResponse fromDataHarianDetails(DataHarianDetails dataHarianDetails, RestTemplate restTemplate, String bearerToken) {
         MakananDetailsDto makanan = requestGetMakananDetails(dataHarianDetails.getMakananId(), restTemplate, bearerToken);
 
         setInformasiGiziSesuaiTakaran(dataHarianDetails, makanan);
 
-        return DataHarianDetailsData.builder()
+        return DataHarianDetailsResponse.builder()
                 .makanan(makanan)
                 .jumlahTakaran(dataHarianDetails.getJumlahTakaran())
                 .build();

@@ -1,4 +1,4 @@
-package com.example.dataharianuser.utils;
+package com.example.dataharianuser.service.utils;
 
 
 import lombok.RequiredArgsConstructor;
@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -20,9 +21,13 @@ public class Authenticator {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
         HttpEntity<String> entity = new HttpEntity<>("",headers);
-        ResponseEntity<Integer> response = restTemplate.exchange(url, HttpMethod.GET, entity, Integer.class);
-        Integer userId = response.getBody();
-        return userId;
+        try {
+            ResponseEntity<Integer> response = restTemplate.exchange(url, HttpMethod.GET, entity, Integer.class);
+            return response.getBody();
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
 }

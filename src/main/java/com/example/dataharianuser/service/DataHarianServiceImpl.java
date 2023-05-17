@@ -1,6 +1,6 @@
 package com.example.dataharianuser.service;
 
-import com.example.dataharianuser.dto.DataHarianDetailsData;
+import com.example.dataharianuser.dto.DataHarianDetailsResponse;
 import com.example.dataharianuser.dto.DataHarianDetailsRequest;
 import com.example.dataharianuser.dto.DataHarianRequest;
 import com.example.dataharianuser.dto.DataHarianResponse;
@@ -10,15 +10,12 @@ import com.example.dataharianuser.model.DataHarianDetails;
 import com.example.dataharianuser.repository.DataHarianDetailsRepository;
 import com.example.dataharianuser.repository.DataHarianRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.internal.util.ZonedDateTimeComparator;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -71,7 +68,7 @@ public class DataHarianServiceImpl implements DataHarianService{
     }
 
     @Override
-    public DataHarianDetailsData getDataHarianDetailsData(Integer userId, Long dataHarianId, Long dataHarianDetailsId, String bearerToken) {
+    public DataHarianDetailsResponse getDataHarianDetails(Integer userId, Long dataHarianId, Long dataHarianDetailsId, String bearerToken) {
         var dataHarianOptional = dataHarianRepository.findDataHarianByIdAndUserId(dataHarianId, userId);
         if (dataHarianOptional.isEmpty()){
             throw new DataHarianDoesNotExistException(dataHarianId);
@@ -134,9 +131,6 @@ public class DataHarianServiceImpl implements DataHarianService{
         }
         DataHarian dataHarian = dataHarianOptional.get();
         DataHarianDetails newDataHarianDetails = dataHarianDetailsService.delete(dataHarianDetailId, dataHarian, userId);
-
-
-
         return newDataHarianDetails;
     }
 

@@ -1,6 +1,6 @@
 package com.example.dataharianuser.service;
 
-import com.example.dataharianuser.dto.DataHarianDetailsData;
+import com.example.dataharianuser.dto.DataHarianDetailsResponse;
 import com.example.dataharianuser.dto.DataHarianDetailsRequest;
 import com.example.dataharianuser.dto.DataHarianRequest;
 import com.example.dataharianuser.dto.DataHarianResponse;
@@ -16,7 +16,7 @@ public interface DataHarianService {
     List<DataHarianResponse> findAllByUserId(Integer userId, String bearerToken);
     DataHarianResponse findDataHarianByDateAndUserId(Date date, Integer userId, String bearerToken);
     DataHarian create(Integer userId, DataHarianRequest dataHarianRequest);
-    DataHarianDetailsData getDataHarianDetailsData(Integer userId, Long dataHarianId, Long dataHarianDetailsId, String bearerToken);
+    DataHarianDetailsResponse getDataHarianDetails(Integer userId, Long dataHarianId, Long dataHarianDetailsId, String bearerToken);
     DataHarian updateTargetKalori(Integer userId, Long id, DataHarianRequest dataHarianRequest);
     DataHarianDetails updateTambahMakanan(Integer userId, Long id, DataHarianDetailsRequest dataHarianDetailsRequest);
     DataHarianDetails updateUbahMakanan(Integer userId, Long dataHarianId, Long dataHarianDetailsId, DataHarianDetailsRequest dataHarianDetailsRequest);

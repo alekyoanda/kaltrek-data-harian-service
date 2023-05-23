@@ -2,7 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.0.5"
     id("io.spring.dependency-management") version "1.1.0"
-    id("org.sonarqube") version "3.0"
+    id("org.sonarqube") version "4.0.0.2929"
     jacoco
 }
 
@@ -24,6 +24,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-rest")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-web-services")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     compileOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4")
     compileOnly("org.projectlombok:lombok")
@@ -49,3 +50,12 @@ tasks.jacocoTestReport {
         html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
 }
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", System.getenv("SONAR_PROJECT_KEY"))
+        property("sonar.host.url", System.getenv("SONAR_HOST_URL"))
+        property("sonar.login", System.getenv("SONAR_TOKEN"))
+    }
+}
+

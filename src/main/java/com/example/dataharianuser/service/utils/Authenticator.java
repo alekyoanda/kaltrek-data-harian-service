@@ -1,6 +1,7 @@
 package com.example.dataharianuser.service.utils;
 
 
+import com.example.dataharianuser.dto.GetUserDataResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
@@ -14,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 @RequiredArgsConstructor
 public class Authenticator {
-    private static String url = "http://localhost:8080/api/v1/auth/get-userid";
+    private static String url = "http://localhost:8080/api/v1/auth/get-user";
     private final RestTemplate restTemplate;
 
     public Integer getUserId(String token){
@@ -22,12 +23,12 @@ public class Authenticator {
         headers.set("Authorization", token);
         HttpEntity<String> entity = new HttpEntity<>("",headers);
         try {
-            ResponseEntity<Integer> response = restTemplate.exchange(url, HttpMethod.GET, entity, Integer.class);
-            return response.getBody();
+            ResponseEntity<GetUserDataResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, GetUserDataResponse.class);
+            System.out.println(response.getBody().getId());
+            return response.getBody().getId();
         }
         catch (Exception e){
             return null;
         }
     }
-
 }

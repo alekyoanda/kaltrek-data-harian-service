@@ -20,4 +20,9 @@ public interface DataHarianRepository extends JpaRepository<DataHarian, Long> {
     Optional<DataHarian> findDataHarianByIdAndUserId(@NonNull Long id, Integer userId);
 
     Optional<DataHarian> findDataHarianByDateAndUserId(Date date, Integer userId);
+
+    Optional<DataHarian> findFirstByUserIdOrderByDateDesc(Integer userId);
+
+    boolean existsByUserIdAndDate(Integer userId, Date date);
+
 }

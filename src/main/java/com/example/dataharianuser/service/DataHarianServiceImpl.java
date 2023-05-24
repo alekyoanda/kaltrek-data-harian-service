@@ -57,8 +57,13 @@ public class DataHarianServiceImpl implements DataHarianService{
     @Override
     public DataHarian create(Integer userId, DataHarianRequest dataHarianRequest) {
         Date date = new Date();
+
+        if (dataHarianRepository.existsByUserIdAndDate(userId, setTimeToMidnight(date))) {
+            throw new RuntimeException("DataHarian already exists for the given date");
+        }
+
         var dataHarian = DataHarian.builder()
-                .date(date)
+                .date(setTimeToMidnight(date))
                 .targetKalori(dataHarianRequest.getTargetKalori())
                 .userId(userId)
                 .build();
@@ -88,14 +93,13 @@ public class DataHarianServiceImpl implements DataHarianService{
         DataHarian dataHarian = dataHarianOptional.get();
 
         DataHarian updateData = DataHarian.builder()
-                .id(id)
+                .id(dataHarian.getId())
                 .date(dataHarian.getDate())
                 .targetKalori(dataHarianRequest.getTargetKalori())
                 .dataHarianDetailsList(dataHarian.getDataHarianDetailsList())
                 .userId(userId)
                 .build();
 
-        dataHarianRepository.delete(dataHarian);
         dataHarianRepository.save(updateData);
 
         return updateData;

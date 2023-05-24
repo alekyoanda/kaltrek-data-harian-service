@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DataHarianDetailsResponse {
+    private Long id;
     private MakananDetailsDto makanan;
     private Double jumlahTakaran;
 
@@ -25,6 +26,7 @@ public class DataHarianDetailsResponse {
         setInformasiGiziSesuaiTakaran(dataHarianDetails, makanan);
 
         return DataHarianDetailsResponse.builder()
+                .id(dataHarianDetails.getId())
                 .makanan(makanan)
                 .jumlahTakaran(dataHarianDetails.getJumlahTakaran())
                 .build();

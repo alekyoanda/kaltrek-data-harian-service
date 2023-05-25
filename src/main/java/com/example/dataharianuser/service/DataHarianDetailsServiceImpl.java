@@ -7,7 +7,9 @@ import com.example.dataharianuser.model.DataHarian;
 import com.example.dataharianuser.model.DataHarianDetails;
 import com.example.dataharianuser.repository.DataHarianDetailsRepository;
 import com.example.dataharianuser.repository.DataHarianRepository;
+import com.example.dataharianuser.service.utils.URLManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,6 +21,8 @@ public class DataHarianDetailsServiceImpl implements DataHarianDetailsService{
     private final DataHarianDetailsRepository dataHarianDetailsRepository;
     private final DataHarianRepository dataHarianRepository;
     private final RestTemplate restTemplate;
+    @Autowired
+    private URLManager urlManager;
 
     @Override
     public DataHarianDetails create(DataHarian dataHarian, Integer userId, DataHarianDetailsRequest dataHarianDetailsRequest) {
@@ -46,7 +50,7 @@ public class DataHarianDetailsServiceImpl implements DataHarianDetailsService{
             throw new DataHarianDetailsDoesNotExistException(id, dataHarian.getId());
         }
 
-        return DataHarianDetailsResponse.fromDataHarianDetails(dataHarianDetailsOptional.get(), restTemplate, bearerToken);
+        return DataHarianDetailsResponse.fromDataHarianDetails(dataHarianDetailsOptional.get(), restTemplate, bearerToken, urlManager.getBaseUrlMakanan());
     }
 
     @Override

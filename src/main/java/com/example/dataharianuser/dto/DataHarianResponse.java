@@ -24,7 +24,7 @@ public class DataHarianResponse {
     private NutrisiDto nutrisiTotal;
     private List<DataHarianDetailsResponse> dataHarianDetailsDataList;
 
-    public static DataHarianResponse fromDataHarian(DataHarian dataHarian, List<DataHarianDetails> dataHarianDetailsList, RestTemplate restTemplate, String bearerToken) {
+    public static DataHarianResponse fromDataHarian(DataHarian dataHarian, List<DataHarianDetails> dataHarianDetailsList, RestTemplate restTemplate, String bearerToken, String baseUrl) {
         Double totalKaloriKonsumsi = 0.0;
         NutrisiDto nutrisiTotal = NutrisiDto.builder()
                 .karbohidrat(0.0)
@@ -38,7 +38,7 @@ public class DataHarianResponse {
 
         List<DataHarianDetailsResponse> dataHarianDetailsDataList = new ArrayList<>();
         for (DataHarianDetails dataHarianDetails: dataHarianDetailsList){
-            DataHarianDetailsResponse dataHarianDetailsData = DataHarianDetailsResponse.fromDataHarianDetails(dataHarianDetails, restTemplate, bearerToken);
+            DataHarianDetailsResponse dataHarianDetailsData = DataHarianDetailsResponse.fromDataHarianDetails(dataHarianDetails, restTemplate, bearerToken, baseUrl);
             totalKaloriKonsumsi += dataHarianDetailsData.getMakanan().getKalori();
             nutrisiTotal.setKarbohidrat(nutrisiTotal.getKarbohidrat() + dataHarianDetailsData.getMakanan().getKarbohidrat());
             nutrisiTotal.setLemak(nutrisiTotal.getLemak() + dataHarianDetailsData.getMakanan().getLemak());

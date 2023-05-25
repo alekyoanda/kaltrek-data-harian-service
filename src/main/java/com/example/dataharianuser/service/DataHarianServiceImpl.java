@@ -10,6 +10,7 @@ import com.example.dataharianuser.model.DataHarian;
 import com.example.dataharianuser.model.DataHarianDetails;
 import com.example.dataharianuser.repository.DataHarianDetailsRepository;
 import com.example.dataharianuser.repository.DataHarianRepository;
+import com.example.dataharianuser.service.utils.URLManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,11 +29,13 @@ public class DataHarianServiceImpl implements DataHarianService{
     private final DataHarianDetailsService dataHarianDetailsService;
     private final RestTemplate restTemplate;
 
+    private final URLManager urlManager;
+
     @Override
     public List<DataHarianResponse> findAllByUserId(Integer userId, String bearerToken) {
         return dataHarianRepository.findAllByUserId(userId)
                 .stream()
-                .map(dataHarianUser -> DataHarianResponse.fromDataHarian(dataHarianUser, dataHarianDetailsRepository.findAllByDataHarianId(dataHarianUser.getId()), restTemplate, bearerToken))
+                .map(dataHarianUser -> DataHarianResponse.fromDataHarian(dataHarianUser, dataHarianDetailsRepository.findAllByDataHarianId(dataHarianUser.getId()), restTemplate, bearerToken, urlManager.getBaseUrlMakanan()))
                 .toList();
     }
 
@@ -53,7 +56,7 @@ public class DataHarianServiceImpl implements DataHarianService{
         }
         return DataHarianResponse.fromDataHarian(dataHarian,
                 dataHarianDetailsRepository.findAllByDataHarianId(dataHarian.getId()),
-                restTemplate, bearerToken);
+                restTemplate, bearerToken, urlManager.getBaseUrlMakanan());
     }
 
     @Override

@@ -1,10 +1,13 @@
 package com.example.dataharianuser.dto;
 
 import com.example.dataharianuser.model.DataHarianDetails;
+import com.example.dataharianuser.service.utils.URLManager;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,8 +23,8 @@ public class DataHarianDetailsResponse {
     private MakananDetailsDto makanan;
     private Double jumlahTakaran;
 
-    public static DataHarianDetailsResponse fromDataHarianDetails(DataHarianDetails dataHarianDetails, RestTemplate restTemplate, String bearerToken) {
-        MakananDetailsDto makanan = requestGetMakananDetails(dataHarianDetails.getMakananId(), restTemplate, bearerToken);
+    public static DataHarianDetailsResponse fromDataHarianDetails(DataHarianDetails dataHarianDetails, RestTemplate restTemplate, String bearerToken, String baseUrl) {
+        MakananDetailsDto makanan = requestGetMakananDetails(dataHarianDetails.getMakananId(), restTemplate, bearerToken, baseUrl);
 
         setInformasiGiziSesuaiTakaran(dataHarianDetails, makanan);
 
@@ -56,19 +59,20 @@ public class DataHarianDetailsResponse {
 //        nutrisi.setSodium(nutrisi.getSodium() * koefisienTakaran);
 //    }
 
-    public static MakananDetailsDto requestGetMakananDetails(Long makananId, RestTemplate restTemplate, String bearerToken){
-        String url;
-        TypeMakananResponse makananType = requestGetTypeMakanan(makananId, restTemplate, bearerToken);
+    public static MakananDetailsDto requestGetMakananDetails(Long makananId, RestTemplate restTemplate, String bearerToken, String baseUrl){
+        String url = baseUrl;
+        System.out.println("BASE URL: " + url);
+        TypeMakananResponse makananType = requestGetTypeMakanan(makananId, restTemplate, bearerToken, baseUrl);
         ResponseEntity<MakananDetailsDto> response;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", bearerToken);
         HttpEntity<String> entity = new HttpEntity<>("",headers);
 
         if (makananType.isResepMakanan()){
-            url = "http://localhost:8081/api/v1/resep/get-nutrisi-resep/" + makananType.getIdBahanOrResepMakanan();
+            url += "/api/v1/resep/get-nutrisi-resep/" + makananType.getIdBahanOrResepMakanan();
         }
         else{
-            url = "http://localhost:8081/api/v1/bahanmakanan/id/" + makananType.getIdBahanOrResepMakanan();
+            url += "/api/v1/bahanmakanan/id/" + makananType.getIdBahanOrResepMakanan();
         }
 
         response = restTemplate.exchange(url, HttpMethod.GET, entity, MakananDetailsDto.class);
@@ -81,8 +85,8 @@ public class DataHarianDetailsResponse {
         return makanan;
     }
 
-    private static TypeMakananResponse requestGetTypeMakanan(Long makananId, RestTemplate restTemplate, String bearerToken){
-        String url = "http://localhost:8081/api/v1/makanan/get-tipe-makanan/" + makananId;
+    private static TypeMakananResponse requestGetTypeMakanan(Long makananId, RestTemplate restTemplate, String bearerToken, String baseUrl){
+        String url = baseUrl + "/api/v1/makanan/get-tipe-makanan/" + makananId;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", bearerToken);
         HttpEntity<String> entity = new HttpEntity<>("",headers);

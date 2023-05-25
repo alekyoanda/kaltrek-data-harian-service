@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(baseException, forbidden);
     }
 
-    @ExceptionHandler(value={DataHarianDoesNotExistException.class})
+    @ExceptionHandler(value={DataHarianDoesNotExistException.class, DataHarianWithSameDateAlreadyExistException.class})
     public ResponseEntity<Object> dataHarianDoesNotAvailable(Exception exception){
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
         ErrorTemplate baseException = new ErrorTemplate(

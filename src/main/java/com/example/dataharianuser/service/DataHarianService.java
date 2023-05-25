@@ -18,8 +18,8 @@ public interface DataHarianService {
     DataHarian create(Integer userId, DataHarianRequest dataHarianRequest);
     DataHarianDetailsResponse getDataHarianDetails(Integer userId, Long dataHarianId, Long dataHarianDetailsId, String bearerToken);
     DataHarian updateTargetKalori(Integer userId, Long id, DataHarianRequest dataHarianRequest);
-    DataHarianDetails updateTambahMakanan(Integer userId, Long id, DataHarianDetailsRequest dataHarianDetailsRequest);
-    DataHarianDetails updateUbahMakanan(Integer userId, Long dataHarianId, Long dataHarianDetailsId, DataHarianDetailsRequest dataHarianDetailsRequest);
-    DataHarianDetails deleteDataHarianDetail(Integer userId, Long dataHarianId, Long dataHarianDetailId);
+    DataHarian updateTambahMakanan(Integer userId, Long id, DataHarianDetailsRequest dataHarianDetailsRequest);
+    DataHarian updateUbahMakanan(Integer userId, Long dataHarianId, Long dataHarianDetailsId, DataHarianDetailsRequest dataHarianDetailsRequest);
+    DataHarian deleteDataHarianDetail(Integer userId, Long dataHarianId, Long dataHarianDetailId);
 
 }

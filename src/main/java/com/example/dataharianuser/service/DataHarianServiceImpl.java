@@ -5,6 +5,7 @@ import com.example.dataharianuser.dto.DataHarianDetailsRequest;
 import com.example.dataharianuser.dto.DataHarianRequest;
 import com.example.dataharianuser.dto.DataHarianResponse;
 import com.example.dataharianuser.exception.DataHarianDoesNotExistException;
+import com.example.dataharianuser.exception.DataHarianWithSameDateAlreadyExistException;
 import com.example.dataharianuser.model.DataHarian;
 import com.example.dataharianuser.model.DataHarianDetails;
 import com.example.dataharianuser.repository.DataHarianDetailsRepository;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -59,13 +61,14 @@ public class DataHarianServiceImpl implements DataHarianService{
         Date date = new Date();
 
         if (dataHarianRepository.existsByUserIdAndDate(userId, setTimeToMidnight(date))) {
-            throw new RuntimeException("DataHarian already exists for the given date");
+            throw new DataHarianWithSameDateAlreadyExistException(userId, setTimeToMidnight(date));
         }
 
         var dataHarian = DataHarian.builder()
                 .date(setTimeToMidnight(date))
                 .targetKalori(dataHarianRequest.getTargetKalori())
                 .userId(userId)
+                .dataHarianDetailsList(new ArrayList<>())
                 .build();
         dataHarianRepository.save(dataHarian);
 
@@ -106,39 +109,44 @@ public class DataHarianServiceImpl implements DataHarianService{
     }
 
     @Override
-    public DataHarianDetails updateTambahMakanan(Integer userId, Long id, DataHarianDetailsRequest dataHarianDetailsRequest) {
+    public DataHarian updateTambahMakanan(Integer userId, Long id, DataHarianDetailsRequest dataHarianDetailsRequest) {
         var dataHarianOptional = dataHarianRepository.findDataHarianByIdAndUserId(id, userId);
         if (dataHarianOptional.isEmpty()){
             throw new DataHarianDoesNotExistException(id);
         }
         DataHarian dataHarian = dataHarianOptional.get();
 
-        return dataHarianDetailsService.create(dataHarian, userId, dataHarianDetailsRequest);
+        dataHarianDetailsService.create(dataHarian, userId, dataHarianDetailsRequest);
+
+        return dataHarian;
     }
 
     @Override
-    public DataHarianDetails updateUbahMakanan(Integer userId, Long dataHarianId, Long dataHarianDetailsId, DataHarianDetailsRequest dataHarianDetailsRequest) {
+    public DataHarian updateUbahMakanan(Integer userId, Long dataHarianId, Long dataHarianDetailsId, DataHarianDetailsRequest dataHarianDetailsRequest) {
         var dataHarianOptional = dataHarianRepository.findDataHarianByIdAndUserId(dataHarianId, userId);
         if (dataHarianOptional.isEmpty()){
             throw new DataHarianDoesNotExistException(dataHarianId);
         }
         DataHarian dataHarian = dataHarianOptional.get();
 
-        return dataHarianDetailsService.update(dataHarianDetailsId, dataHarian, userId, dataHarianDetailsRequest);
+        dataHarianDetailsService.update(dataHarianDetailsId, dataHarian, userId, dataHarianDetailsRequest);
+
+        return dataHarian;
     }
 
     @Override
-    public DataHarianDetails deleteDataHarianDetail(Integer userId, Long dataHarianId, Long dataHarianDetailId) {
+    public DataHarian deleteDataHarianDetail(Integer userId, Long dataHarianId, Long dataHarianDetailId) {
         var dataHarianOptional = dataHarianRepository.findDataHarianByIdAndUserId(dataHarianId, userId);
         if (dataHarianOptional.isEmpty()){
             throw new DataHarianDoesNotExistException(dataHarianId);
         }
         DataHarian dataHarian = dataHarianOptional.get();
-        DataHarianDetails newDataHarianDetails = dataHarianDetailsService.delete(dataHarianDetailId, dataHarian, userId);
-        return newDataHarianDetails;
+        dataHarianDetailsService.delete(dataHarianDetailId, dataHarian, userId);
+
+        return dataHarian;
     }
 
-    private static Date setTimeToMidnight(Date date) {
+    public static Date setTimeToMidnight(Date date) {
         Calendar calendar = Calendar.getInstance();
 
         calendar.setTime( date );

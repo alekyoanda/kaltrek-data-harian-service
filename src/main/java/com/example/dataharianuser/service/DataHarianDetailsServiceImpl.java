@@ -70,10 +70,7 @@ public class DataHarianDetailsServiceImpl implements DataHarianDetailsService{
         dataHarian.addDataHarianDetails(updateData);
 
         dataHarianRepository.save(dataHarian);
-
-        dataHarianDetailsRepository.delete(dataHarianDetailsOptional.get());
         dataHarianDetailsRepository.save(updateData);
-
 
         return updateData;
     }

@@ -8,6 +8,7 @@ import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,10 +25,9 @@ public class DataHarian {
     private Double targetKalori;
     private Integer userId;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonBackReference
-    private List<DataHarianDetails> dataHarianDetailsList;
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "dataHarian", orphanRemoval = true)
+    @JsonManagedReference
+    private List<DataHarianDetails> dataHarianDetailsList = new ArrayList<>();
 
     public void addDataHarianDetails(DataHarianDetails dataHarianDetails){
         this.dataHarianDetailsList.add(dataHarianDetails);
@@ -36,6 +36,17 @@ public class DataHarian {
     public void removeDataHarianDetails(DataHarianDetails dataHarianDetails){
         this.dataHarianDetailsList.remove(dataHarianDetails);
     }
+
+    @Override
+    public String toString() {
+        return "DataHarian{" +
+                "id=" + id +
+                ", date=" + date +
+                ", targetKalori=" + targetKalori +
+                ", userId=" + userId +
+                '}';
+    }
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.dataharianuser.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,12 +16,22 @@ public class DataHarianDetails {
     @GeneratedValue
     private Long id;
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     private DataHarian dataHarian;
 
     private Long makananId;
     @Value("${cp.custom.takaran:false}")
     private Boolean isCustomTakaran;
     private Double jumlahTakaran;
+
+    @Override
+    public String toString() {
+        return "DataHarianDetails{" +
+                "id=" + id +
+                ", makananId=" + makananId +
+                ", isCustomTakaran=" + isCustomTakaran +
+                ", jumlahTakaran=" + jumlahTakaran +
+                '}';
+    }
 
 }

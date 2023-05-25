@@ -10,6 +10,7 @@ import com.example.dataharianuser.model.DataHarianDetails;
 import com.example.dataharianuser.service.DataHarianService;
 import com.example.dataharianuser.service.utils.Authenticator;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -64,27 +65,27 @@ public class DataHarianController {
     }
 
     @PutMapping("/update-tambah-makanan/{id}")
-    public ResponseEntity<DataHarianDetails> updateTambahMakanan(HttpServletRequest request,
+    public ResponseEntity<DataHarian> updateTambahMakanan(HttpServletRequest request,
                                                                  @PathVariable Long id,
                                                                  @RequestBody DataHarianDetailsRequest dataHarianDetailsRequest) {
-        DataHarianDetails response = dataHarianService.updateTambahMakanan(getUserId(request), id, dataHarianDetailsRequest);
+        DataHarian response = dataHarianService.updateTambahMakanan(getUserId(request), id, dataHarianDetailsRequest);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/update-ubah-makanan/{data_harian_id}/{data_harian_detail_id}")
-    public ResponseEntity<DataHarianDetails> updateUbahMakanan(HttpServletRequest request,
+    public ResponseEntity<DataHarian> updateUbahMakanan(HttpServletRequest request,
                                                                @PathVariable Long data_harian_id,
                                                                @PathVariable Long data_harian_detail_id,
                                                                @RequestBody DataHarianDetailsRequest dataHarianDetailsRequest) {
-        DataHarianDetails response = dataHarianService.updateUbahMakanan(getUserId(request), data_harian_id, data_harian_detail_id, dataHarianDetailsRequest);
+        DataHarian response = dataHarianService.updateUbahMakanan(getUserId(request), data_harian_id, data_harian_detail_id, dataHarianDetailsRequest);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{data_harian_id}/{data_harian_detail_id}")
-    public ResponseEntity<DataHarianDetails> deleteDataHarianDetail(HttpServletRequest request,
+    public ResponseEntity<DataHarian> deleteDataHarianDetail(HttpServletRequest request,
                                                                     @PathVariable Long data_harian_id,
                                                                     @PathVariable Long data_harian_detail_id) {
-        DataHarianDetails response = dataHarianService.deleteDataHarianDetail(getUserId(request), data_harian_id, data_harian_detail_id);
+        DataHarian response = dataHarianService.deleteDataHarianDetail(getUserId(request), data_harian_id, data_harian_detail_id);
         return ResponseEntity.ok(response);
     }
 

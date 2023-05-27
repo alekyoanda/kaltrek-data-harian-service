@@ -27,7 +27,7 @@ public class DataHarian {
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "dataHarian", orphanRemoval = true)
     @JsonManagedReference
-    private List<DataHarianDetails> dataHarianDetailsList = new ArrayList<>();
+    private List<DataHarianDetails> dataHarianDetailsList;
 
     public void addDataHarianDetails(DataHarianDetails dataHarianDetails){
         this.dataHarianDetailsList.add(dataHarianDetails);

@@ -11,7 +11,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // Adjust the mapping based on your API endpoints
-                .allowedOrigins("http://localhost:3001") // Adjust the allowed origin to match your frontend URL
+                .allowedOrigins("http://localhost:3001", "https://kaltrek-project-adpro-c11.vercel.app") // Adjust the allowed origin to match your frontend URL
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // Adjust the allowed HTTP methods based on your API
                 .allowedHeaders("*")
                 .allowCredentials(true);

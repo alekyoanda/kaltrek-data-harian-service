@@ -21,8 +21,8 @@ public class ScheduledService {
     private DataHarianRepository dataHarianRepository;
     @Autowired
     private DataHarianService dataHarianService;
-//    @Scheduled(cron = "0 0 0 * * *") // Executes at midnight
-    @Scheduled(fixedRate = 24 * 60 * 60 * 1000) // Execute every 24 hours
+//    @Scheduled(fixedRate = 24 * 60 * 60 * 1000) // Execute every 24 hours
+    @Scheduled(cron = "0 0 0 * * *") // Executes at midnight
     public void createDataHarianEveryDay() {
 
         // Get the user IDs for which you want to create daily data

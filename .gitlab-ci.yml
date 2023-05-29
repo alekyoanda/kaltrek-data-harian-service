@@ -14,8 +14,10 @@ variables:
 
 stages:
   - build
+  - test
   - publish
   - deploy
+  - sonarqube-check
 
 Build:
   stage: build
@@ -32,6 +34,29 @@ Build:
     paths:
       - build/libs/*.jar
     expire_in: 1 week
+
+Test:
+  stage: test
+  image: gradle:jdk17-alpine
+  dependencies:
+    - Build
+  services:
+    - "postgres:latest"
+  before_script:
+    - echo `pwd`
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - export SPRING_PROFILES_ACTIVE=test
+  script:
+    - gradle check --info --stacktrace
+    - gradle test
+    - gradle jacocoTestReport
+    - grep -Eo "Total.*?([0-9]{1,3})%" build/jacocoHtml/index.html
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/test/**/TEST-*.xml
+  coverage: '/Total.*?([0-9]{1,3})%/'
+  allow_failure: true
 
 Publish:
   stage: publish
@@ -65,4 +90,22 @@ Deploy:
       docker run --name $CONTAINER_NAME -d -p 80:8080 $REGISTRY_USER/$IMAGE_NAME:$IMAGE_TAG"
   only:
     - main
+    - post-sprint-revision
+
+Sonarqube:
+  stage: sonarqube-check
+  image: gradle:jdk17-alpine
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script: gradle test jacocoTestReport sonarqube -Dsonar.qualitygate.wait=true -D"sonar.projectKey=AdvProg_reguler-2023_mahasiswa_kelas-c_2106650853-Arya-Daffa-Athaillah_kelompok_list-page_AYfL2C5_9YbzwjBXjRC3"
+  allow_failure: true
+  only:
+    - merge_requests
+    - main # or the name of your main branch
+    - develop
     - post-sprint-revision

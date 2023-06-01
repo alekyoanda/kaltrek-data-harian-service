@@ -43,7 +43,7 @@ public class DataHarianServiceImpl implements DataHarianService{
         DataHarian dataHarian = null;
 
         for (DataHarian dataHarianObj: dataHarianRepository.findAllByUserId(userId)){
-            int compare = setTimeToMidnight(dataHarianObj.getDate()).compareTo(date);
+            int compare = setTimeToMidnight(dataHarianObj.getDate()).compareTo(setTimeToMidnight(date));
             if (compare == 0){
                 dataHarian = dataHarianObj;
             }
@@ -61,6 +61,7 @@ public class DataHarianServiceImpl implements DataHarianService{
     @Override
     public DataHarian create(Integer userId, DataHarianRequest dataHarianRequest) {
         Date date = new Date();
+        System.out.println(date.toString());
 
         if (dataHarianRepository.existsByUserIdAndDate(userId, setTimeToMidnight(date))) {
             throw new DataHarianWithSameDateAlreadyExistException(userId, setTimeToMidnight(date));

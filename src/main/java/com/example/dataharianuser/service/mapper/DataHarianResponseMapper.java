@@ -1,30 +1,22 @@
-package com.example.dataharianuser.dto;
+package com.example.dataharianuser.service.mapper;
 
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianResponse;
+import com.example.dataharianuser.model.dto.makanan.NutrisiDto;
 import com.example.dataharianuser.model.DataHarian;
 import com.example.dataharianuser.model.DataHarianDetails;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class DataHarianResponse {
-    private Long id;
-    private Date date;
-    private Double targetKalori;
-    private Double totalKaloriKonsumsi;
-    private NutrisiDto nutrisiTotal;
-    private List<DataHarianDetailsResponse> dataHarianDetailsDataList;
+@Component
+public class DataHarianResponseMapper {
+    @Autowired
+    private DataHarianDetailsResponseMapper dataHarianDetailsResponseMapper;
 
-    public static DataHarianResponse fromDataHarian(DataHarian dataHarian, List<DataHarianDetails> dataHarianDetailsList, RestTemplate restTemplate, String bearerToken, String baseUrl) {
+    public DataHarianResponse mapToDataHarianResponse(DataHarian dataHarian, List<DataHarianDetails> dataHarianDetailsList, String bearerToken) {
         Double totalKaloriKonsumsi = 0.0;
         NutrisiDto nutrisiTotal = NutrisiDto.builder()
                 .karbohidrat(0.0)
@@ -37,8 +29,9 @@ public class DataHarianResponse {
                 .build();
 
         List<DataHarianDetailsResponse> dataHarianDetailsDataList = new ArrayList<>();
-        for (DataHarianDetails dataHarianDetails: dataHarianDetailsList){
-            DataHarianDetailsResponse dataHarianDetailsData = DataHarianDetailsResponse.fromDataHarianDetails(dataHarianDetails, restTemplate, bearerToken, baseUrl);
+        for (DataHarianDetails dataHarianDetails : dataHarianDetailsList) {
+            DataHarianDetailsResponse dataHarianDetailsData = dataHarianDetailsResponseMapper.mapToDataHarianDetailsResponse(dataHarianDetails, bearerToken);
+
             totalKaloriKonsumsi += dataHarianDetailsData.getMakanan().getKalori();
             nutrisiTotal.setKarbohidrat(nutrisiTotal.getKarbohidrat() + dataHarianDetailsData.getMakanan().getKarbohidrat());
             nutrisiTotal.setLemak(nutrisiTotal.getLemak() + dataHarianDetailsData.getMakanan().getLemak());
@@ -47,6 +40,7 @@ public class DataHarianResponse {
             nutrisiTotal.setProtein(nutrisiTotal.getProtein() + dataHarianDetailsData.getMakanan().getProtein());
             nutrisiTotal.setGula(nutrisiTotal.getGula() + dataHarianDetailsData.getMakanan().getGula());
             nutrisiTotal.setKalori(nutrisiTotal.getKalori() + dataHarianDetailsData.getMakanan().getKalori());
+
             dataHarianDetailsDataList.add(dataHarianDetailsData);
         }
 

@@ -1,11 +1,10 @@
-package com.example.dataharianuser.service;
+package com.example.dataharianuser.service.dataHarian;
 
-import com.example.dataharianuser.dto.DataHarianDetailsResponse;
-import com.example.dataharianuser.dto.DataHarianDetailsRequest;
-import com.example.dataharianuser.dto.DataHarianRequest;
-import com.example.dataharianuser.dto.DataHarianResponse;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsRequest;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianRequest;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianResponse;
 import com.example.dataharianuser.model.DataHarian;
-import com.example.dataharianuser.model.DataHarianDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

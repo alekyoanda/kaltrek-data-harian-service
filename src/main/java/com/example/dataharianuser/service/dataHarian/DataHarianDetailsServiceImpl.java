@@ -1,18 +1,15 @@
-package com.example.dataharianuser.service;
+package com.example.dataharianuser.service.dataHarian;
 
-import com.example.dataharianuser.dto.DataHarianDetailsResponse;
-import com.example.dataharianuser.dto.DataHarianDetailsRequest;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsRequest;
 import com.example.dataharianuser.exception.DataHarianDetailsDoesNotExistException;
 import com.example.dataharianuser.model.DataHarian;
 import com.example.dataharianuser.model.DataHarianDetails;
 import com.example.dataharianuser.repository.DataHarianDetailsRepository;
 import com.example.dataharianuser.repository.DataHarianRepository;
-import com.example.dataharianuser.service.utils.URLManager;
+import com.example.dataharianuser.service.mapper.DataHarianDetailsResponseMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import java.util.Optional;
 
 @Service
@@ -20,9 +17,8 @@ import java.util.Optional;
 public class DataHarianDetailsServiceImpl implements DataHarianDetailsService{
     private final DataHarianDetailsRepository dataHarianDetailsRepository;
     private final DataHarianRepository dataHarianRepository;
-    private final RestTemplate restTemplate;
-    @Autowired
-    private URLManager urlManager;
+
+    private final DataHarianDetailsResponseMapper dataHarianDetailsResponseMapper;
 
     @Override
     public DataHarianDetails create(DataHarian dataHarian, Integer userId, DataHarianDetailsRequest dataHarianDetailsRequest) {
@@ -50,7 +46,7 @@ public class DataHarianDetailsServiceImpl implements DataHarianDetailsService{
             throw new DataHarianDetailsDoesNotExistException(id, dataHarian.getId());
         }
 
-        return DataHarianDetailsResponse.fromDataHarianDetails(dataHarianDetailsOptional.get(), restTemplate, bearerToken, urlManager.getBaseUrlMakanan());
+        return dataHarianDetailsResponseMapper.mapToDataHarianDetailsResponse(dataHarianDetailsOptional.get(), bearerToken);
     }
 
     @Override

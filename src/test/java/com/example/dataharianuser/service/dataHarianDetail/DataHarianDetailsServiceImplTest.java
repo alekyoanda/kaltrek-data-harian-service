@@ -1,15 +1,13 @@
 package com.example.dataharianuser.service.dataHarianDetail;
 
-import com.example.dataharianuser.dto.DataHarianDetailsRequest;
-import com.example.dataharianuser.dto.DataHarianRequest;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsRequest;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianRequest;
 import com.example.dataharianuser.exception.DataHarianDetailsDoesNotExistException;
-import com.example.dataharianuser.exception.DataHarianDoesNotExistException;
 import com.example.dataharianuser.model.DataHarian;
 import com.example.dataharianuser.model.DataHarianDetails;
 import com.example.dataharianuser.repository.DataHarianDetailsRepository;
 import com.example.dataharianuser.repository.DataHarianRepository;
-import com.example.dataharianuser.service.DataHarianDetailsServiceImpl;
-import com.example.dataharianuser.service.DataHarianServiceImpl;
+import com.example.dataharianuser.service.dataHarian.DataHarianDetailsServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,13 +15,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
-import static com.example.dataharianuser.service.DataHarianServiceImpl.setTimeToMidnight;
+import static com.example.dataharianuser.service.dataHarian.DataHarianServiceImpl.setTimeToMidnight;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

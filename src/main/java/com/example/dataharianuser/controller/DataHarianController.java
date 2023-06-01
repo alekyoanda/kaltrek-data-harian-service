@@ -1,16 +1,12 @@
 package com.example.dataharianuser.controller;
 
-import com.example.dataharianuser.dto.DataHarianDetailsResponse;
-import com.example.dataharianuser.dto.DataHarianDetailsRequest;
-import com.example.dataharianuser.dto.DataHarianRequest;
-import com.example.dataharianuser.dto.DataHarianResponse;
-import com.example.dataharianuser.exception.UnauthenticatedException;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsRequest;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianRequest;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianResponse;
 import com.example.dataharianuser.model.DataHarian;
-import com.example.dataharianuser.model.DataHarianDetails;
-import com.example.dataharianuser.service.DataHarianService;
-import com.example.dataharianuser.service.utils.Authenticator;
+import com.example.dataharianuser.service.dataHarian.DataHarianService;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

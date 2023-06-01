@@ -1,19 +1,17 @@
-package com.example.dataharianuser.service;
+package com.example.dataharianuser.service.dataHarian;
 
-import com.example.dataharianuser.dto.DataHarianDetailsResponse;
-import com.example.dataharianuser.dto.DataHarianDetailsRequest;
-import com.example.dataharianuser.dto.DataHarianRequest;
-import com.example.dataharianuser.dto.DataHarianResponse;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsRequest;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianRequest;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianResponse;
 import com.example.dataharianuser.exception.DataHarianDoesNotExistException;
 import com.example.dataharianuser.exception.DataHarianWithSameDateAlreadyExistException;
 import com.example.dataharianuser.model.DataHarian;
-import com.example.dataharianuser.model.DataHarianDetails;
 import com.example.dataharianuser.repository.DataHarianDetailsRepository;
 import com.example.dataharianuser.repository.DataHarianRepository;
-import com.example.dataharianuser.service.utils.URLManager;
+import com.example.dataharianuser.service.mapper.DataHarianResponseMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,15 +25,16 @@ public class DataHarianServiceImpl implements DataHarianService{
     private final DataHarianDetailsRepository dataHarianDetailsRepository;
 
     private final DataHarianDetailsService dataHarianDetailsService;
-    private final RestTemplate restTemplate;
 
-    private final URLManager urlManager;
+    private final DataHarianResponseMapper dataHarianResponseMapper;
 
     @Override
     public List<DataHarianResponse> findAllByUserId(Integer userId, String bearerToken) {
         return dataHarianRepository.findAllByUserId(userId)
                 .stream()
-                .map(dataHarianUser -> DataHarianResponse.fromDataHarian(dataHarianUser, dataHarianDetailsRepository.findAllByDataHarianId(dataHarianUser.getId()), restTemplate, bearerToken, urlManager.getBaseUrlMakanan()))
+                .map(dataHarianUser -> dataHarianResponseMapper.mapToDataHarianResponse(dataHarianUser,
+                        dataHarianDetailsRepository.findAllByDataHarianId(dataHarianUser.getId()),
+                        bearerToken))
                 .toList();
     }
 
@@ -45,7 +44,6 @@ public class DataHarianServiceImpl implements DataHarianService{
 
         for (DataHarian dataHarianObj: dataHarianRepository.findAllByUserId(userId)){
             int compare = setTimeToMidnight(dataHarianObj.getDate()).compareTo(date);
-            System.err.println(compare);
             if (compare == 0){
                 dataHarian = dataHarianObj;
             }
@@ -54,9 +52,10 @@ public class DataHarianServiceImpl implements DataHarianService{
         if (dataHarian == null){
             throw new DataHarianDoesNotExistException(date, userId);
         }
-        return DataHarianResponse.fromDataHarian(dataHarian,
+
+        return dataHarianResponseMapper.mapToDataHarianResponse(dataHarian,
                 dataHarianDetailsRepository.findAllByDataHarianId(dataHarian.getId()),
-                restTemplate, bearerToken, urlManager.getBaseUrlMakanan());
+                bearerToken);
     }
 
     @Override

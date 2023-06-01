@@ -20,13 +20,6 @@ public class MakananDetailsServiceImpl implements MakananDetailsService {
         TypeMakananResponse makananType = getTypeMakanan(makananId, bearerToken);
         String url = buildUrl(makananType.isResepMakanan(), makananType.getIdBahanOrResepMakanan());
 
-        if (makananType.isResepMakanan()){
-            url += "/api/v1/resep/get-nutrisi-resep/" + makananType.getIdBahanOrResepMakanan();
-        }
-        else{
-            url += "/api/v1/bahanmakanan/id/" + makananType.getIdBahanOrResepMakanan();
-        }
-
         ResponseEntity<MakananDetailsDto> response = restTemplateFacade.get(url, bearerToken, MakananDetailsDto.class);
         MakananDetailsDto makanan = response.getBody();
 

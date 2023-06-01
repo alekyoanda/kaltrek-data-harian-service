@@ -16,7 +16,7 @@ public class ScheduledService {
     private final DataHarianRepository dataHarianRepository;
     private final DataHarianService dataHarianService;
 
-    @Scheduled(cron = "0 0 0 * * *") // Executes at midnight
+    @Scheduled(cron = "1 0 0 * * *") // Executes at midnight
     public void createDataHarianEveryDay() {
         List<Integer> userIds = getUserIdsToCreateData();
         for (Integer userId : userIds) {

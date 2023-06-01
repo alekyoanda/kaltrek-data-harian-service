@@ -46,19 +46,6 @@ public class DataHarianDetailsResponse {
         makanan.setSodium(makanan.getSodium() * koefisienTakaran);
     }
 
-//    private static void setInformasiGiziSesuaiTakaran(DataHarianDetails dataHarianDetails, MakananDetailsDto makanan) {
-//        Double koefisienTakaran = dataHarianDetails.getJumlahTakaran() / makanan.getTakaran();
-//        NutrisiDto nutrisi = makanan.getNutrisi();
-//
-//        nutrisi.setGula(nutrisi.getGula() * koefisienTakaran);
-//        nutrisi.setKalori(nutrisi.getKalori() * koefisienTakaran);
-//        nutrisi.setKarbohidrat(nutrisi.getKarbohidrat() * koefisienTakaran);
-//        nutrisi.setKolesterol(nutrisi.getKolesterol() * koefisienTakaran);
-//        nutrisi.setLemak(nutrisi.getLemak() * koefisienTakaran);
-//        nutrisi.setProtein(nutrisi.getProtein() * koefisienTakaran);
-//        nutrisi.setSodium(nutrisi.getSodium() * koefisienTakaran);
-//    }
-
     public static MakananDetailsDto requestGetMakananDetails(Long makananId, RestTemplate restTemplate, String bearerToken, String baseUrl){
         String url = baseUrl;
         System.out.println("BASE URL: " + url);

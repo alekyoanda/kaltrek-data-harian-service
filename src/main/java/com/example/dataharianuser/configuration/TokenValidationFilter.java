@@ -25,8 +25,6 @@ public class TokenValidationFilter extends OncePerRequestFilter{
         String authToken = request.getHeader("Authorization");
         Integer userId = authenticator.getUserId(authToken);
         if (userId == null){
-//            request.getRequestDispatcher("/data-harian/error/unauthenticated").forward(request, response);
-//            return;
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.getWriter().write("Unauthenticated");

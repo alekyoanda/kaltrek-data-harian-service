@@ -16,13 +16,11 @@ public class Authenticator {
         try {
             ResponseEntity<GetUserDataResponse> response = restTemplateProxy.get(urlManager.getUrlAuth(), token, GetUserDataResponse.class);
             GetUserDataResponse responseBody = response.getBody();
-            if (responseBody != null) {
-                return responseBody.getId();
-            }
+            assert responseBody != null;
+            return responseBody.getId();
         }
         catch (Exception e){
             return null;
         }
-        return null;
     }
 }

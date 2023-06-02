@@ -18,21 +18,6 @@ public class RestTemplateProxy {
         return restTemplate.exchange(url, HttpMethod.GET, requestEntity, responseType);
     }
 
-    public <T> ResponseEntity<T> post(String url, String bearerToken, Object requestBody, Class<T> responseType) {
-        HttpEntity<?> requestEntity = createRequestEntity(bearerToken, requestBody);
-        return restTemplate.exchange(url, HttpMethod.POST, requestEntity, responseType);
-    }
-
-    public <T> ResponseEntity<T> put(String url, String bearerToken, Object requestBody, Class<T> responseType) {
-        HttpEntity<?> requestEntity = createRequestEntity(bearerToken, requestBody);
-        return restTemplate.exchange(url, HttpMethod.PUT, requestEntity, responseType);
-    }
-
-    public <T> ResponseEntity<T> delete(String url, String bearerToken, Class<T> responseType) {
-        HttpEntity<?> requestEntity = createRequestEntity(bearerToken, null);
-        return restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, responseType);
-    }
-
     private HttpEntity<?> createRequestEntity(String bearerToken, Object requestBody) {
         HttpHeaders headers = createAuthorizationHeaders(bearerToken);
         return new HttpEntity<>(requestBody, headers);

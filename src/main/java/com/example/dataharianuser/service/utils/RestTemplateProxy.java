@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 @RequiredArgsConstructor
-public class RestTemplateFacade {
+public class RestTemplateProxy {
     private final RestTemplate restTemplate;
 
     public <T> ResponseEntity<T> get(String url, String bearerToken, Class<T> responseType) {
@@ -33,12 +33,12 @@ public class RestTemplateFacade {
         return restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, responseType);
     }
 
-    private <T> HttpEntity<?> createRequestEntity(String bearerToken, Object requestBody) {
+    private HttpEntity<?> createRequestEntity(String bearerToken, Object requestBody) {
         HttpHeaders headers = createAuthorizationHeaders(bearerToken);
         return new HttpEntity<>(requestBody, headers);
     }
 
-    private static HttpHeaders createAuthorizationHeaders(String bearerToken) {
+    private HttpHeaders createAuthorizationHeaders(String bearerToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", bearerToken);
         return headers;

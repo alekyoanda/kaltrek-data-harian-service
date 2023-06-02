@@ -1,5 +1,6 @@
 package com.example.dataharianuser.service.dataHarian;
 
+import com.example.dataharianuser.model.DataHarianDetails;
 import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
 import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsRequest;
 import com.example.dataharianuser.model.dto.dataHarian.DataHarianRequest;
@@ -32,9 +33,10 @@ public class DataHarianServiceImpl implements DataHarianService{
     public List<DataHarianResponse> findAllByUserId(Integer userId, String bearerToken) {
         return dataHarianRepository.findAllByUserId(userId)
                 .stream()
-                .map(dataHarianUser -> dataHarianResponseMapper.mapToDataHarianResponse(dataHarianUser,
-                        dataHarianDetailsRepository.findAllByDataHarianId(dataHarianUser.getId()),
-                        bearerToken))
+                .map(dataHarianUser -> {
+                    List<DataHarianDetails> details = dataHarianDetailsRepository.findAllByDataHarianId(dataHarianUser.getId());
+                    return dataHarianResponseMapper.mapToDataHarianResponse(dataHarianUser, details, bearerToken);
+                })
                 .toList();
     }
 
@@ -61,7 +63,6 @@ public class DataHarianServiceImpl implements DataHarianService{
     @Override
     public DataHarian create(Integer userId, DataHarianRequest dataHarianRequest) {
         Date date = new Date();
-        System.out.println(date.toString());
 
         if (dataHarianRepository.existsByUserIdAndDate(userId, setTimeToMidnight(date))) {
             throw new DataHarianWithSameDateAlreadyExistException(userId, setTimeToMidnight(date));

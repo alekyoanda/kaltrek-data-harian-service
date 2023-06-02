@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class Authenticator {
     private final URLManager urlManager;
-    private final RestTemplateFacade restTemplateFacade;
+    private final RestTemplateProxy restTemplateProxy;
 
     public Integer getUserId(String token){
         try {
-            ResponseEntity<GetUserDataResponse> response = restTemplateFacade.get(urlManager.getUrlAuth(), token, GetUserDataResponse.class);
+            ResponseEntity<GetUserDataResponse> response = restTemplateProxy.get(urlManager.getUrlAuth(), token, GetUserDataResponse.class);
             GetUserDataResponse responseBody = response.getBody();
             if (responseBody != null) {
                 return responseBody.getId();

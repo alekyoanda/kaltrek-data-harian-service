@@ -11,6 +11,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import reactor.util.annotation.NonNull;
+
 import java.io.IOException;
 
 @Component
@@ -19,7 +21,7 @@ public class TokenValidationFilter extends OncePerRequestFilter{
     private Authenticator authenticator;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException , UnauthenticatedException {
         // Your custom logic here. For example:
         String authToken = request.getHeader("Authorization");

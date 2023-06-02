@@ -37,14 +37,12 @@ public class ScheduledService {
         Optional<DataHarian> dataHarian = dataHarianRepository.findFirstByUserIdOrderByDateDesc(userId);
 
         if (dataHarian.isPresent()) {
-            DataHarianRequest dataHarianRequest = DataHarianRequest.builder()
+            return DataHarianRequest.builder()
                     .targetKalori(dataHarian.get().getTargetKalori())
                     .build();
-            return dataHarianRequest;
         }
-        DataHarianRequest dataHarianRequest = DataHarianRequest.builder()
+        return DataHarianRequest.builder()
                 .targetKalori(2000.0)
                 .build();
-        return dataHarianRequest;
     }
 }

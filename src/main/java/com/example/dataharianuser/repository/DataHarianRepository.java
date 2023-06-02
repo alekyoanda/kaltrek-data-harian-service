@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface DataHarianRepository extends JpaRepository<DataHarian, Long> {
-    List<DataHarian> findAll();
+    @NonNull List<DataHarian> findAll();
 
     List<DataHarian> findAllByUserId(Integer userId);
 

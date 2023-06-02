@@ -6,6 +6,7 @@ import com.example.dataharianuser.exception.DataHarianDoesNotExistException;
 import com.example.dataharianuser.exception.DataHarianWithSameDateAlreadyExistException;
 import com.example.dataharianuser.model.DataHarian;
 import com.example.dataharianuser.model.DataHarianDetails;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianResponse;
 import com.example.dataharianuser.repository.DataHarianRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.dataharianuser.service.dataHarian.DataHarianServiceImpl.setTimeToMidnight;
@@ -104,13 +106,19 @@ class DataHarianServiceImplTest {
 
 //    @Test
 //    void whenFindAllDataHarianByUserIdShouldReturnListOfDataHarian() {
-//        List<DataHarianResponse> allDataHarianInUser = List.of(dataHarian);
-//
-//        when(dataHarianRepository.findAll()).thenReturn(allDataHarianInUser);
-//
-//        List<DataHarian> result = service.findAllByUserId(userId);
-//        verify(dataHarianRepository, atLeastOnce()).findAll();
-//        Assertions.assertEquals(allDataHarianInUser, result);
+//        List<DataHarianResponse> allDataHarianInUser = List.of(
+//                DataHarianResponse.builder()
+//                        .id(1L)
+//                        .targetKalori(1600.0)
+//                        .date(setTimeToMidnight(new Date()))
+//                        .dataHarianDetailsDataList(new ArrayList<>())
+//                        .build(),
+//                DataHarianResponse.builder()
+//                        .id(2L)
+//                        .targetKalori(1800.0)
+//                        .date(setTimeToMidnight(new Date()))
+//                        .dataHarianDetailsDataList(new ArrayList<>())
+//                        .build());
 //    }
 
     @Test

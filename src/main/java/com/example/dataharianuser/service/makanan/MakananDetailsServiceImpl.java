@@ -5,6 +5,7 @@ import com.example.dataharianuser.model.dto.makanan.TypeMakananResponse;
 import com.example.dataharianuser.service.utils.RestTemplateProxy;
 import com.example.dataharianuser.service.utils.URLManager;
 import lombok.RequiredArgsConstructor;
+import net.minidev.json.JSONUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,6 @@ public class MakananDetailsServiceImpl implements MakananDetailsService {
     public TypeMakananResponse getTypeMakanan(Long makananId, String bearerToken) {
         String url = urlManager.getBaseUrlMakanan() + "/api/v1/makanan/get-tipe-makanan/" + makananId;
         ResponseEntity<TypeMakananResponse> response = restTemplateProxy.get(url, bearerToken, TypeMakananResponse.class);
-
         return response.getBody();
     }
 

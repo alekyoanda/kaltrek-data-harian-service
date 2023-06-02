@@ -13,19 +13,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 class URLManagerTest {
     @InjectMocks
     private URLManager urlManager;
 
-    @Value("${endpoint.url2}")
     private String expectedBaseUrlMakanan;
-    @Value("${endpoint.url}")
     private String expectedUrlAuth;
 
     @BeforeEach
     void setUp() {
+        expectedBaseUrlMakanan = "http://localhost:8081";
+        expectedUrlAuth = "http://localhost:8080/api/v1/auth/get-user";
         // Set the values of urlAuth and baseUrlMakanan using ReflectionTestUtils
         ReflectionTestUtils.setField(urlManager, "urlAuth", expectedUrlAuth);
         ReflectionTestUtils.setField(urlManager, "baseUrlMakanan", expectedBaseUrlMakanan);

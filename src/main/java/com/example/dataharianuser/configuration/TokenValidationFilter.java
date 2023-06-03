@@ -24,17 +24,19 @@ public class TokenValidationFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException , UnauthenticatedException {
         // Your custom logic here. For example:
-        String authToken = request.getHeader("Authorization");
-        Integer userId = authenticator.getUserId(authToken);
-        if (userId == null){
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.getWriter().write("Unauthenticated");
-            return;
-        }
-        request.setAttribute("userId", userId);
+        String path = request.getRequestURI();
+        if (path.startsWith("/api/v1/data-harian")){
+            String authToken = request.getHeader("Authorization");
+            Integer userId = authenticator.getUserId(authToken);
+            if (userId == null){
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                response.getWriter().write("Unauthenticated");
+                return;
+            }
+            request.setAttribute("userId", userId);
 
-        // if everything is ok, let the request continue to the next filter or the controller
+        }
         filterChain.doFilter(request, response);
     }
 }

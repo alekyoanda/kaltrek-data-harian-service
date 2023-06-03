@@ -1,6 +1,7 @@
 package com.example.dataharianuser.service.mapper;
 
 import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianResponse;
 import com.example.dataharianuser.model.dto.makanan.MakananDetailsDto;
 import com.example.dataharianuser.model.DataHarianDetails;
 import com.example.dataharianuser.service.makanan.MakananDetailsService;

@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import static com.example.dataharianuser.service.dataHarian.DataHarianServiceImpl.setTimeToMidnight;

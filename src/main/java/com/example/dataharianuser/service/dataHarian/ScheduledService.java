@@ -27,7 +27,9 @@ public class ScheduledService {
 
     private List<Integer> getUserIdsToCreateData() {
         List<Integer> userIds = new ArrayList<>();
-        for (DataHarian dataHarian : dataHarianRepository.findAll()) {
+
+        List<DataHarian> allDistinctDataHarian = dataHarianRepository.findAll();
+        for (DataHarian dataHarian : allDistinctDataHarian) {
             userIds.add(dataHarian.getUserId());
         }
         return userIds;

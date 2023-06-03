@@ -1,13 +1,16 @@
 package com.example.dataharianuser.service.dataHarianDetail;
 
 import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsRequest;
+import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
 import com.example.dataharianuser.model.dto.dataHarian.DataHarianRequest;
 import com.example.dataharianuser.exception.DataHarianDetailsDoesNotExistException;
 import com.example.dataharianuser.model.DataHarian;
 import com.example.dataharianuser.model.DataHarianDetails;
+import com.example.dataharianuser.model.dto.makanan.MakananDetailsDto;
 import com.example.dataharianuser.repository.DataHarianDetailsRepository;
 import com.example.dataharianuser.repository.DataHarianRepository;
 import com.example.dataharianuser.service.dataHarian.DataHarianDetailsServiceImpl;
+import com.example.dataharianuser.service.mapper.DataHarianDetailsResponseMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +37,8 @@ class DataHarianDetailsServiceImplTest {
 
     @Mock
     private DataHarianDetailsRepository dataHarianDetailsRepository;
+    @Mock
+    private DataHarianDetailsResponseMapper dataHarianDetailsResponseMapper;
 
     Integer userId;
     Long makananId;
@@ -44,13 +49,24 @@ class DataHarianDetailsServiceImplTest {
     DataHarianDetails dataHarianDetails;
     DataHarianDetails newDataHarianDetails;
 
+    DataHarianDetailsResponse dataHarianDetailsResponse;
+
     DataHarianDetailsRequest createDataHarianDetailsRequest;
     DataHarianDetailsRequest updateDataHarianDetailsRequest;
+
+    MakananDetailsDto makananDetailsDto;
+    String bearerToken;
 
     @BeforeEach
     void setUp() {
         userId = 1;
         makananId = 1L;
+        bearerToken = "Bearer token";
+
+        makananDetailsDto = MakananDetailsDto.builder()
+                .namaMakanan("Nasi Goreng")
+                .kalori(200.0)
+                .build();
         // Set up mock objects or test data if needed
         createRequest = DataHarianRequest.builder()
                 .targetKalori(1600.0)
@@ -81,12 +97,50 @@ class DataHarianDetailsServiceImplTest {
                 .jumlahTakaran(150.0)
                 .build();
 
+        dataHarianDetailsResponse = DataHarianDetailsResponse.builder()
+                .id(1L)
+                .jumlahTakaran(150.0)
+                .makanan(makananDetailsDto)
+                .build();
+
         newDataHarianDetails = DataHarianDetails.builder()
                 .id(1L)
                 .makananId(makananId)
                 .dataHarian(dataHarian)
                 .jumlahTakaran(250.0)
                 .build();
+    }
+
+    @Test
+    void whenReadExistingDataHarianDetailsShouldReturnDataHarianDetailsResponse() {
+        // Arrange
+        when(dataHarianDetailsRepository.findDataHarianDetailsByIdAndDataHarianId(1L, dataHarian.getId()))
+                .thenReturn(Optional.of(dataHarianDetails));
+
+        when(dataHarianDetailsResponseMapper.mapToDataHarianDetailsResponse(dataHarianDetails, bearerToken))
+                .thenReturn(dataHarianDetailsResponse);
+
+        DataHarianDetailsResponse actualResponse = dataHarianDetailsService.read(1L, dataHarian, userId, bearerToken);
+
+        // Assert
+        Assertions.assertEquals(dataHarianDetailsResponse, actualResponse);
+        verify(dataHarianDetailsRepository, atLeastOnce()).findDataHarianDetailsByIdAndDataHarianId(1L, dataHarian.getId());
+        verify(dataHarianDetailsResponseMapper, atLeastOnce())
+                .mapToDataHarianDetailsResponse(dataHarianDetails, bearerToken);
+    }
+
+    @Test
+    void whenReadNonExistingDataHarianDetailsShouldThrowException() {
+        // Arrange
+        when(dataHarianDetailsRepository.findDataHarianDetailsByIdAndDataHarianId(1L, dataHarian.getId()))
+                .thenReturn(Optional.empty());
+
+        // Act and Assert
+        Assertions.assertThrows(DataHarianDetailsDoesNotExistException.class,
+                () -> dataHarianDetailsService.read(1L, dataHarian, userId, bearerToken));
+
+        verify(dataHarianDetailsRepository, times(1)).findDataHarianDetailsByIdAndDataHarianId(1L, dataHarian.getId());
+        verifyNoInteractions(dataHarianDetailsResponseMapper);
     }
 
     @Test

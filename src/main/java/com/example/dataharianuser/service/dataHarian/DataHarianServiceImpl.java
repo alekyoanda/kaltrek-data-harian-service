@@ -31,13 +31,16 @@ public class DataHarianServiceImpl implements DataHarianService{
 
     @Override
     public List<DataHarianResponse> findAllByUserId(Integer userId, String bearerToken) {
-        return dataHarianRepository.findAllByUserId(userId)
-                .stream()
-                .map(dataHarianUser -> {
-                    List<DataHarianDetails> details = dataHarianDetailsRepository.findAllByDataHarianId(dataHarianUser.getId());
-                    return dataHarianResponseMapper.mapToDataHarianResponse(dataHarianUser, details, bearerToken);
-                })
-                .toList();
+        List<DataHarianResponse> result = new ArrayList<>();
+        List<DataHarian> dataHarianList = dataHarianRepository.findAllByUserId(userId);
+
+        for (DataHarian dataHarianUser : dataHarianList) {
+            List<DataHarianDetails> details = dataHarianDetailsRepository.findAllByDataHarianId(dataHarianUser.getId());
+            DataHarianResponse response = dataHarianResponseMapper.mapToDataHarianResponse(dataHarianUser, details, bearerToken);
+            result.add(response);
+        }
+
+        return result;
     }
 
     @Override

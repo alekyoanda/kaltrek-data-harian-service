@@ -1,15 +1,15 @@
-package com.example.dataharianuser.service.dataHarianDetail;
+package com.example.dataharianuser.service.data_harian_details;
 
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsRequest;
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianRequest;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianDetailsRequest;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianDetailsResponse;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianRequest;
 import com.example.dataharianuser.exception.DataHarianDetailsDoesNotExistException;
 import com.example.dataharianuser.model.DataHarian;
 import com.example.dataharianuser.model.DataHarianDetails;
 import com.example.dataharianuser.model.dto.makanan.MakananDetailsDto;
 import com.example.dataharianuser.repository.DataHarianDetailsRepository;
 import com.example.dataharianuser.repository.DataHarianRepository;
-import com.example.dataharianuser.service.dataHarian.DataHarianDetailsServiceImpl;
+import com.example.dataharianuser.service.data_harian.DataHarianDetailsServiceImpl;
 import com.example.dataharianuser.service.mapper.DataHarianDetailsResponseMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
-import static com.example.dataharianuser.service.dataHarian.DataHarianServiceImpl.setTimeToMidnight;
+import static com.example.dataharianuser.service.data_harian.DataHarianServiceImpl.setTimeToMidnight;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -179,34 +179,34 @@ class DataHarianDetailsServiceImplTest {
     void whenUpdateWithNonExistingDataHarianDetailsShouldThrowException() {
         // Mock the dataHarianRepository.findDataHarianByIdAndUserId() method to return an empty Optional
         when(dataHarianDetailsRepository.findDataHarianDetailsByIdAndDataHarianId(
-                eq(dataHarianDetails.getId()), eq(dataHarianDetails.getId())))
+                1L, dataHarianDetails.getId()))
                 .thenReturn(Optional.empty());
 
         // Assert that a DataHarianDoesNotExistException is thrown with the expected message
         Assertions.assertThrows(DataHarianDetailsDoesNotExistException.class, () -> {
-            dataHarianDetailsService.update(dataHarianDetails.getId(), dataHarian, userId, updateDataHarianDetailsRequest);
+            dataHarianDetailsService.update(1L, dataHarian, userId, updateDataHarianDetailsRequest);
         });
 
         // Verify that the dataHarianRepository.findDataHarianByIdAndUserId() method is called with the expected arguments
         verify(dataHarianDetailsRepository, atLeastOnce()).findDataHarianDetailsByIdAndDataHarianId(
-                eq(dataHarianDetails.getId()), eq(dataHarian.getId())
+                dataHarianDetails.getId(), dataHarian.getId()
         );
     }
 
     @Test
     void whenDeleteDataHarianDetailsShouldReturnDeletedDataHarianDetails() {
         // Mock the dataHarianDetailsRepository.findDataHarianDetailsByIdAndDataHarianId() method to return the existingDataHarianDetails
-        when(dataHarianDetailsRepository.findDataHarianDetailsByIdAndDataHarianId(eq(dataHarianDetails.getId()), eq(dataHarian.getId())))
+        when(dataHarianDetailsRepository.findDataHarianDetailsByIdAndDataHarianId(dataHarianDetails.getId(), dataHarian.getId()))
                 .thenReturn(Optional.of(dataHarianDetails));
 
         // Invoke the delete method
         DataHarianDetails deletedDataHarianDetails = dataHarianDetailsService.delete(dataHarianDetails.getId(), dataHarian, userId);
 
         // Verify that the dataHarianRepository.save() method is called with the expected argument
-        verify(dataHarianRepository, atLeastOnce()).save(eq(dataHarian));
+        verify(dataHarianRepository, atLeastOnce()).save(dataHarian);
 
         // Verify that the dataHarianDetailsRepository.delete() method is called with the expected argument
-        verify(dataHarianDetailsRepository, atLeastOnce()).delete(eq(dataHarianDetails));
+        verify(dataHarianDetailsRepository, atLeastOnce()).delete(dataHarianDetails);
 
         // Assert that the deletedDataHarianDetails matches the original dataHarianDetails
         Assertions.assertEquals(dataHarianDetails, deletedDataHarianDetails);
@@ -216,17 +216,17 @@ class DataHarianDetailsServiceImplTest {
     void whenDeleteWithNonExistingDataHarianDetailsShouldThrowException() {
         // Mock the dataHarianRepository.findDataHarianByIdAndUserId() method to return an empty Optional
         when(dataHarianDetailsRepository.findDataHarianDetailsByIdAndDataHarianId(
-                eq(dataHarianDetails.getId()), eq(dataHarianDetails.getId())))
+                1L, dataHarianDetails.getId()))
                 .thenReturn(Optional.empty());
 
         // Assert that a DataHarianDoesNotExistException is thrown with the expected message
         Assertions.assertThrows(DataHarianDetailsDoesNotExistException.class, () -> {
-            dataHarianDetailsService.delete(dataHarianDetails.getId(), dataHarian, userId);
+            dataHarianDetailsService.delete(1L, dataHarian, userId);
         });
 
         // Verify that the dataHarianRepository.findDataHarianByIdAndUserId() method is called with the expected arguments
         verify(dataHarianDetailsRepository, atLeastOnce()).findDataHarianDetailsByIdAndDataHarianId(
-                eq(dataHarianDetails.getId()), eq(dataHarian.getId())
+                1L, dataHarian.getId()
         );
     }
 

@@ -33,7 +33,7 @@ class RestTemplateProxyTest {
         expectedHeaders.set("Authorization", bearerToken);
         HttpEntity<?> expectedRequestEntity = new HttpEntity<>(null, expectedHeaders);
 
-        when(restTemplate.exchange(eq(url), eq(HttpMethod.GET), eq(expectedRequestEntity), eq(responseType)))
+        when(restTemplate.exchange(url, HttpMethod.GET, expectedRequestEntity, responseType))
                 .thenReturn(expectedResponse);
 
         // Act
@@ -43,6 +43,6 @@ class RestTemplateProxyTest {
         assertEquals(expectedResponse, result);
 
         verify(restTemplate, atLeastOnce())
-                .exchange(eq(url), eq(HttpMethod.GET), eq(expectedRequestEntity), eq(responseType));
+                .exchange(url, HttpMethod.GET, expectedRequestEntity, responseType);
     }
 }

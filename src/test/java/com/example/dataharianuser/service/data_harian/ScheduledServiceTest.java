@@ -1,18 +1,16 @@
-package com.example.dataharianuser.service.dataHarian;
+package com.example.dataharianuser.service.data_harian;
 
 
 import com.example.dataharianuser.model.DataHarian;
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianRequest;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianRequest;
 import com.example.dataharianuser.repository.DataHarianRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

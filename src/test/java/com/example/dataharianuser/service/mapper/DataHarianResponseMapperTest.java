@@ -2,8 +2,8 @@ package com.example.dataharianuser.service.mapper;
 
 import com.example.dataharianuser.model.DataHarian;
 import com.example.dataharianuser.model.DataHarianDetails;
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianResponse;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianDetailsResponse;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianResponse;
 import com.example.dataharianuser.model.dto.makanan.MakananDetailsDto;
 import com.example.dataharianuser.model.dto.makanan.NutrisiDto;
 import org.junit.jupiter.api.Assertions;
@@ -14,8 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.xml.crypto.Data;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -107,7 +105,7 @@ class DataHarianResponseMapperTest {
     @Test
     void whenMapFromDataHarianButListIsEmptyShouldReturnDataHarianResponse() {
         // Mock the behavior of dataHarianDetailsResponseMapper.mapToDataHarianDetailsResponse
-        when(dataHarianDetailsResponseMapper.mapToDataHarianDetailsResponse(eq(dataHarianDetails1), eq(token)))
+        when(dataHarianDetailsResponseMapper.mapToDataHarianDetailsResponse(dataHarianDetails1, token))
                 .thenReturn(dataHarianDetailsResponse1);
 
         // Call the method to be tested
@@ -121,6 +119,6 @@ class DataHarianResponseMapperTest {
         Assertions.assertEquals(dataHarianResponse.getDataHarianDetailsDataList(), result.getDataHarianDetailsDataList());
 
         // Verify that the mock method was called with the expected arguments
-        verify(dataHarianDetailsResponseMapper, atLeastOnce()).mapToDataHarianDetailsResponse(eq(dataHarianDetails1), eq(token));
+        verify(dataHarianDetailsResponseMapper, atLeastOnce()).mapToDataHarianDetailsResponse(dataHarianDetails1, token);
     }
 }

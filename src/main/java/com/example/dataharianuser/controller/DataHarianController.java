@@ -1,11 +1,11 @@
 package com.example.dataharianuser.controller;
 
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsRequest;
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianRequest;
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianResponse;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianDetailsResponse;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianDetailsRequest;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianRequest;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianResponse;
 import com.example.dataharianuser.model.DataHarian;
-import com.example.dataharianuser.service.dataHarian.DataHarianService;
+import com.example.dataharianuser.service.data_harian.DataHarianService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

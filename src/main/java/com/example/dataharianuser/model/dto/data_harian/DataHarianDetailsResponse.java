@@ -1,4 +1,4 @@
-package com.example.dataharianuser.model.dto.dataHarian;
+package com.example.dataharianuser.model.dto.data_harian;
 
 import com.example.dataharianuser.model.dto.makanan.MakananDetailsDto;
 import lombok.AllArgsConstructor;

@@ -4,14 +4,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianDetailsResponse;
 import com.example.dataharianuser.model.dto.makanan.MakananDetailsDto;
 import com.example.dataharianuser.model.DataHarianDetails;
 import com.example.dataharianuser.service.makanan.MakananDetailsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -55,7 +54,7 @@ class DataHarianDetailsResponseMapperTest {
 
     @Test
     void mapToDataHarianDetailsResponse_ShouldMapDataHarianDetailsToDataHarianDetailsResponse() {
-        when(makananDetailsService.getMakananDetails(eq(dataHarianDetails.getMakananId()), eq(bearerToken)))
+        when(makananDetailsService.getMakananDetails(dataHarianDetails.getMakananId(), bearerToken))
                 .thenReturn(makananDetailsDto);
 
         // Act
@@ -66,6 +65,6 @@ class DataHarianDetailsResponseMapperTest {
         assertEquals(makananDetailsDto, result.getMakanan());
         assertEquals(dataHarianDetails.getJumlahTakaran(), result.getJumlahTakaran());
 
-        verify(makananDetailsService, atLeastOnce()).getMakananDetails(eq(dataHarianDetails.getMakananId()), eq(bearerToken));
+        verify(makananDetailsService, atLeastOnce()).getMakananDetails(dataHarianDetails.getMakananId(), bearerToken);
     }
 }

@@ -1,9 +1,9 @@
-package com.example.dataharianuser.service.dataHarian;
+package com.example.dataharianuser.service.data_harian;
 
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsResponse;
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianDetailsRequest;
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianRequest;
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianResponse;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianDetailsResponse;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianDetailsRequest;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianRequest;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianResponse;
 import com.example.dataharianuser.model.DataHarian;
 import org.springframework.stereotype.Service;
 

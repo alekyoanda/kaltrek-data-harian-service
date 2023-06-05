@@ -1,4 +1,4 @@
-package com.example.dataharianuser.service.makananDetails;
+package com.example.dataharianuser.service.makanan_details;
 
 import com.example.dataharianuser.exception.BahanOrResepMakananDoesNotExistException;
 import com.example.dataharianuser.exception.MakananDoesNotExistException;

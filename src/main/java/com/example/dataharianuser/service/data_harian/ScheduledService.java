@@ -1,6 +1,6 @@
-package com.example.dataharianuser.service.dataHarian;
+package com.example.dataharianuser.service.data_harian;
 
-import com.example.dataharianuser.model.dto.dataHarian.DataHarianRequest;
+import com.example.dataharianuser.model.dto.data_harian.DataHarianRequest;
 import com.example.dataharianuser.model.DataHarian;
 import com.example.dataharianuser.repository.DataHarianRepository;
 import lombok.RequiredArgsConstructor;

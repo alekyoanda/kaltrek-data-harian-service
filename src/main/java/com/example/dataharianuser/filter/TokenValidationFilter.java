@@ -1,7 +1,7 @@
-package com.example.dataharianuser.configuration;
+package com.example.dataharianuser.filter;
 import com.example.dataharianuser.exception.UnauthenticatedException;
 import com.example.dataharianuser.service.utils.Authenticator;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -16,12 +16,12 @@ import reactor.util.annotation.NonNull;
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class TokenValidationFilter extends OncePerRequestFilter{
-    @Autowired
-    private Authenticator authenticator;
+    private final Authenticator authenticator;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
+    public void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException , UnauthenticatedException {
         // Your custom logic here. For example:
         String path = request.getRequestURI();
